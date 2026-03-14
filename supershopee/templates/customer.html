@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block title %}Shop | Super Shopee{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="hero-section">
+        <h1>Welcome to Super Shopee</h1>
+        <p>Browse our fresh selection of groceries and shop with confidence. Quality products, great prices, fast delivery.</p>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h2>Available Products</h2>
+        <a href="/cart" class="btn-small" style="width: auto; padding: 12px 24px;">View Cart</a>
+    </div>
+
+    <div class="product-grid">
+        {% for product in products %}
+        <div class="card">
+            <div class="card-img-wrapper">
+                <img src="{{ product.img_url }}" alt="{{ product.name }}">
+                <span class="card-badge">{{ product.category }}</span>
+            </div>
+            <div class="card-content">
+                <h3>{{ product.name }}</h3>
+                <p class="description">{{ product.description }}</p>
+                <p class="stock-info {% if product.stock < 10 %}low{% endif %}">
+                    {% if product.stock > 0 %}
+                        In Stock: {{ product.stock }}
+                    {% else %}
+                        Out of Stock
+                    {% endif %}
+                </p>
+                <p class="price">${{ "%.2f"|format(product.price) }}</p>
+                <div class="product-actions">
+                    {% if product.stock > 0 %}
+                    <button class="add-to-cart-btn" onclick="addToCart({{ product.id }})">Add to Cart</button>
+                    {% else %}
+                    <button disabled style="opacity: 0.5;">Out of Stock</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+function addToCart(productId) {
+    fetch('/api/add-to-cart', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            product_id: productId,
+            quantity: 1
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Item added to cart!');
+        }
+    });
+}
+</script>
+{% endblock %}
