@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login | Super Shopee</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body { margin: 0; padding: 0; overflow-x: hidden; background: var(--surface); }
+        .split-container { display: flex; min-height: 100vh; }
+    </style>
+</head>
+<body>
+<div class="split-container">
+    <!-- Left Side: Branding & Imagery -->
+    <div class="split-left">
+        <div class="brand-logo-white">🛒 Super Shopee</div>
+        <div class="hero-text-container">
+            <h1>Fresh Groceries, <br>Online Now</h1>
+            <p>Shop fresh produce, dairy, bakery items, and pantry essentials from the comfort of your home. Fast delivery guaranteed.</p>
+        </div>
+    </div>
+
+    <!-- Right Side: Form -->
+    <div class="split-right">
+        <div class="form-wrapper">
+            <h2>Welcome Back</h2>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert {{ category }}" style="margin-bottom: 1.5rem;">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST">
+                <label>Username</label>
+                <input type="text" name="username" placeholder="Enter your username" required>
+
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Enter your password" required>
+
+                <button type="submit">Sign In</button>
+            </form>
+
+            <div class="divider">or</div>
+
+            <a href="/signup" class="create-btn">Create New Account</a>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <p style="color: var(--text-muted); font-size: 0.9rem;">
+                    Admin or Staff? <a href="/admin-login" style="color: var(--accent); font-weight: 700; text-decoration: none;">Access Portal</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
