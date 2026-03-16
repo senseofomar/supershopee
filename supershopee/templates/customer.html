@@ -1,22 +1,22 @@
 {% extends "layout.html" %}
 
-{% block title %}Shop | Super Shopee{% endblock %}
+{% block title %}Shop Fresh Groceries | Super Shopee{% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="hero-section">
         <h1>Welcome to Super Shopee</h1>
-        <p>Browse our fresh selection of groceries and shop with confidence. Quality products, great prices, fast delivery.</p>
+        <p>Discover the freshest produce, finest dairy, artisan bakery items, and pantry essentials—all delivered to your door.</p>
     </div>
 
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <h2>Available Products</h2>
-        <a href="/cart" class="btn-small" style="width: auto; padding: 12px 24px;">View Cart</a>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
+        <h2 style="margin: 0;">Fresh Products Available</h2>
+        <a href="/cart" class="btn-small" style="width: auto; padding: 12px 24px; background: var(--accent); color: white; border-color: var(--accent);">View Cart</a>
     </div>
 
     <div class="product-grid">
         {% for product in products %}
-        <div class="card">
+        <div class="card" id="product-{{ product['id'] }}">
             <div class="card-img-wrapper">
                 <img src="{{ product.img_url }}" alt="{{ product.name }}">
                 <span class="card-badge">{{ product.category }}</span>
@@ -26,9 +26,9 @@
                 <p class="description">{{ product.description }}</p>
                 <p class="stock-info {% if product.stock < 10 %}low{% endif %}">
                     {% if product.stock > 0 %}
-                        In Stock: {{ product.stock }}
+                        📦 {{ product.stock }} in stock
                     {% else %}
-                        Out of Stock
+                        ❌ Out of Stock
                     {% endif %}
                 </p>
                 <p class="price">${{ "%.2f"|format(product.price) }}</p>
@@ -36,7 +36,7 @@
                     {% if product.stock > 0 %}
                     <button class="add-to-cart-btn" onclick="addToCart({{ product.id }})">Add to Cart</button>
                     {% else %}
-                    <button disabled style="opacity: 0.5;">Out of Stock</button>
+                    <button disabled style="opacity: 0.5; cursor: not-allowed;">Out of Stock</button>
                     {% endif %}
                 </div>
             </div>
@@ -49,20 +49,16 @@
 function addToCart(productId) {
     fetch('/api/add-to-cart', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            product_id: productId,
-            quantity: 1
-        })
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({product_id: productId, quantity: 1})
     })
-    .then(response => response.json())
+    .then(r => r.json())
     .then(data => {
         if (data.success) {
-            alert('Item added to cart!');
+            alert('✓ Item added to cart!');
         }
-    });
+    })
+    .catch(e => console.error('Error:', e));
 }
 </script>
 {% endblock %}

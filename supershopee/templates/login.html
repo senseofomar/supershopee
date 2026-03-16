@@ -6,35 +6,107 @@
     <style>
         body { margin: 0; padding: 0; overflow-x: hidden; background: var(--surface); }
         .split-container { display: flex; min-height: 100vh; }
+        .split-left {
+            flex: 1.2;
+            background: linear-gradient(to right, rgba(6, 78, 59, 0.9), rgba(6, 78, 59, 0.4)), url('https://images.unsplash.com/photo-1488477181946-6428a0291840?q=80&w=2075&auto=format&fit=crop') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            padding: 4rem 10%;
+            color: white;
+            box-shadow: inset -10px 0 20px rgba(0,0,0,0.1);
+        }
+        .brand-logo-white {
+            font-size: 1.8rem; font-weight: 800; color: white;
+            display: flex; align-items: center; gap: 8px; margin-bottom: auto;
+        }
+        .brand-logo-white::after {
+            content: ''; display: inline-block; width: 8px; height: 8px;
+            background: var(--accent); border-radius: 50%;
+        }
+        .hero-text-container { margin-bottom: auto; }
+        .hero-text-container h1 {
+            font-size: 4rem; font-weight: 800; margin-bottom: 1.5rem;
+            line-height: 1.1; letter-spacing: -1px;
+        }
+        .hero-text-container p {
+            font-size: 1.3rem; color: #cbd5e1; max-width: 450px; line-height: 1.6;
+        }
+        .split-right {
+            flex: 1;
+            background: var(--surface);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+        .form-wrapper {
+            width: 100%;
+            max-width: 420px;
+        }
+        .form-wrapper h2 {
+            font-size: 1.5rem; margin-bottom: 2rem; color: var(--primary); font-weight: 700;
+        }
+        .create-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 14px 24px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .create-btn:hover {
+            background: var(--bg-page);
+            border-color: var(--text-muted);
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 2rem 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+        .divider::before { margin-right: 1rem; }
+        .divider::after { margin-left: 1rem; }
+        @media (max-width: 960px) {
+            .split-container { flex-direction: column; }
+            .split-left { display: none; }
+            .split-right { padding: 4rem 2rem; }
+        }
     </style>
 </head>
 <body>
 <div class="split-container">
-    <!-- Left Side: Branding & Imagery -->
     <div class="split-left">
         <div class="brand-logo-white">🛒 Super Shopee</div>
         <div class="hero-text-container">
-            <h1>Fresh Groceries, <br>Online Now</h1>
-            <p>Shop fresh produce, dairy, bakery items, and pantry essentials from the comfort of your home. Fast delivery guaranteed.</p>
+            <h1>Fresh Groceries,<br>Anytime.</h1>
+            <p>Shop for organic produce, quality dairy, artisan bakery, and pantry essentials. Delivered fresh to your door.</p>
         </div>
     </div>
 
-    <!-- Right Side: Form -->
     <div class="split-right">
         <div class="form-wrapper">
             <h2>Welcome Back</h2>
 
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="alert {{ category }}" style="margin-bottom: 1.5rem;">{{ message }}</div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
+            {% if error %}
+            <div class="alert danger" style="margin-bottom: 1.5rem;">{{ error }}</div>
+            {% endif %}
 
             <form method="POST">
-                <label>Username</label>
-                <input type="text" name="username" placeholder="Enter your username" required>
+                <label>Username or Email</label>
+                <input type="text" name="username" placeholder="Enter your username" required autofocus>
 
                 <label>Password</label>
                 <input type="password" name="password" placeholder="Enter your password" required>
@@ -48,7 +120,7 @@
 
             <div style="text-align: center; margin-top: 2rem;">
                 <p style="color: var(--text-muted); font-size: 0.9rem;">
-                    Admin or Staff? <a href="/admin-login" style="color: var(--accent); font-weight: 700; text-decoration: none;">Access Portal</a>
+                    Staff or Admin? <a href="/admin-login" style="color: var(--accent); font-weight: 700; text-decoration: none;">Access Staff Portal</a>
                 </p>
             </div>
         </div>
