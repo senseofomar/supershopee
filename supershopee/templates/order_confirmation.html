@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}Order Confirmation | Super Shopee{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 600px; margin: 3rem auto;">
+    <div style="text-align: center; background: var(--surface); padding: 3rem; border-radius: var(--radius-lg); border: 2px solid var(--accent); box-shadow: var(--shadow-lg);">
+        <div style="font-size: 4rem; margin-bottom: 1.5rem;">✓</div>
+        <h1 style="margin-top: 0; color: var(--accent);">Order Confirmed!</h1>
+        <p style="color: var(--text-muted); font-size: 1.1rem;">Thank you for your purchase, <strong>{{ session['user'] }}</strong></p>
+
+        <div style="background: var(--bg-page); padding: 2rem; border-radius: var(--radius-md); margin: 2rem 0; border-left: 4px solid var(--accent); text-align: left;">
+            <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">Order #{{ order['id'] }}</p>
+            <h2 style="margin: 0.5rem 0 0 0; font-size: 1.5rem; color: var(--primary);">{{ "%.2f"|format(order['total_amount']) | replace('.', '$', 1) }}</h2>
+            <p style="margin: 0.5rem 0 0 0; color: var(--text-muted);">{{ order['order_date'] }}</p>
+        </div>
+
+        <div style="background: var(--surface); padding: 2rem; border: 1px solid var(--border); border-radius: var(--radius-md); margin: 2rem 0; text-align: left;">
+            <h3 style="margin-top: 0;">Order Items</h3>
+            {% for item in order_items %}
+            <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border);">
+                <div>
+                    <div style="font-weight: 700;">{{ item['name'] }}</div>
+                    <div style="color: var(--text-muted); font-size: 0.9rem;">Qty: {{ item['quantity'] }} × ${{ "%.2f"|format(item['price_at_purchase']) }}</div>
+                </div>
+                <div style="font-weight: 700;">${{ "%.2f"|format(item['price_at_purchase'] * item['quantity']) }}</div>
+            </div>
+            {% endfor %}
+            <div style="display: flex; justify-content: space-between; padding: 12px 0; font-size: 1.2rem; font-weight: 800; color: var(--accent); border-top: 2px solid var(--accent);">
+                <span>Total:</span>
+                <span>${{ "%.2f"|format(order['total_amount']) }}</span>
+            </div>
+        </div>
+
+        <div style="background: #e0f4ec; padding: 1.5rem; border-radius: var(--radius-md); margin: 2rem 0; border-left: 4px solid var(--success);">
+            <p style="margin: 0; color: #065f46; font-weight: 600;">📦 Your order is being prepared!</p>
+            <p style="margin: 0.5rem 0 0 0; color: #047857; font-size: 0.95rem;">We'll notify you when your fresh groceries are on the way.</p>
+        </div>
+
+        <a href="/customer" class="btn" style="margin-top: 2rem; width: auto; padding: 14px 40px;">Continue Shopping</a>
+    </div>
+</div>
+{% endblock %}

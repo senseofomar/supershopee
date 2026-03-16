@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block title %}All Orders | Super Shopee{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem;">
+        <h1 style="margin: 0;">📋 Order Management</h1>
+        <a href="/admin" class="btn-small" style="background: var(--primary); color: white; border-color: var(--primary);">← Back to Dashboard</a>
+    </div>
+
+    <div style="background: var(--surface); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-sm); overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Order Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td style="font-weight: 700; color: var(--text-muted);">#{{ order['id'] }}</td>
+                    <td>{{ order['customer_username'] }}</td>
+                    <td style="font-weight: 600; color: var(--accent);">${{ "%.2f"|format(order['total_amount']) }}</td>
+                    <td>
+                        <select class="status-select" onchange="updateStatus({{ order['id'] }}, this.value)">
+                            <option value="Pending" {% if order['status'] == 'Pending' %}selected{% endif %}>Pending</option>
+                            <option value="Completed" {% if order['status'] == 'Completed' %}selected{% endif %}>Completed</option>
+                            <option value="Cancelled" {% if order['status'] == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+                        </select>
+                    </td>
+                    <td style="color: var(--text-muted); font-size: 0.9rem;">{{ order['order_date'] }}</td>
+                    <td><button class="btn-small" style="padding: 8px 12px; font-size: 0.85rem;">View</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+function updateStatus(orderId, newStatus) {
+    fetch(`/admin/api/update-order-status/${orderId}`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({status: newStatus})
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) alert('✓ Order status updated!');
+    })
+    .catch(e => console.error('Error:', e));
+}
+</script>
+{% endblock %}
