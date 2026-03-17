@@ -14,7 +14,7 @@
                 <div class="cart-item">
                     <div class="cart-item-info">
                         <div class="cart-item-name">{{ item.name }}</div>
-                        <div class="cart-item-price">${{ "%.2f"|format(item.price) }}</div>
+                        <div class="cart-item-price">₹{{ "%.2f"|format(item.price) }}</div>
                     </div>
                     <div class="cart-item-quantity">
                         <button onclick="updateQty({{ item.id }}, {{ item.quantity - 1 }})" class="qty-btn">−</button>
@@ -22,7 +22,7 @@
                         <button onclick="updateQty({{ item.id }}, {{ item.quantity + 1 }})" class="qty-btn">+</button>
                     </div>
                     <div style="min-width: 100px; text-align: right; font-weight: 700; color: var(--primary);">
-                        ${{ "%.2f"|format(item.total) }}
+                        ₹{{ "%.2f"|format(item.total) }}
                     </div>
                     <button class="btn-small btn-danger" onclick="removeItem({{ item.id }})" style="width: auto; padding: 8px 12px; font-size: 0.8rem;">Remove</button>
                 </div>
@@ -34,11 +34,11 @@
             <div class="cart-summary">
                 <div class="summary-row">
                     <span>Subtotal:</span>
-                    <span>${{ "%.2f"|format(total) }}</span>
+                    <span>₹{{ "%.2f"|format(total) }}</span>
                 </div>
                 <div class="summary-row">
                     <span>Estimated Tax (8%):</span>
-                    <span>${{ "%.2f"|format(total * 0.08) }}</span>
+                    <span>₹{{ "%.2f"|format(total * 0.08) }}</span>
                 </div>
                 <div class="summary-row">
                     <span>Shipping:</span>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="summary-row total">
                     <span>Total:</span>
-                    <span>${{ "%.2f"|format(total * 1.08) }}</span>
+                    <span>₹{{ "%.2f"|format(total * 1.08) }}</span>
                 </div>
 
                 <form method="POST" action="/checkout" style="margin-top: 2rem;">
@@ -68,7 +68,7 @@
 
 <script>
 function removeItem(productId) {
-    fetch(`/api/remove-from-cart/${productId}`, {method: 'DELETE'})
+    fetch(`/api/remove-from-cart/₹{productId}`, {method: 'DELETE'})
     .then(r => r.json())
     .then(data => { if (data.success) location.reload(); });
 }

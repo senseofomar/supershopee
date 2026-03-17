@@ -27,7 +27,7 @@
         </div>
         <div class="stat-card">
             <h3>Revenue (Completed)</h3>
-            <p style="color: var(--accent);">${{ "%.2f"|format(total_revenue) }}</p>
+            <p style="color: var(--accent);">₹{{ "%.2f"|format(total_revenue) }}</p>
         </div>
     </div>
 
@@ -54,7 +54,7 @@
                     <tr>
                         <td style="font-weight: 700; color: var(--text-muted);">#{{ order['id'] }}</td>
                         <td>{{ order['customer_username'] }}</td>
-                        <td style="font-weight: 600; color: var(--accent);">${{ "%.2f"|format(order['total_amount']) }}</td>
+                        <td style="font-weight: 600; color: var(--accent);">₹{{ "%.2f"|format(order['total_amount']) }}</td>
                         <td>
                             <select class="status-select" data-order-id="{{ order['id'] }}" onchange="updateStatus(this, {{ order['id'] }})">
                                 <option value="Pending" {% if order['status'] == 'Pending' %}selected{% endif %}>Pending</option>

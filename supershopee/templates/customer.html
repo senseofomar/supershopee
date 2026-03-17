@@ -22,7 +22,7 @@
                 <span class="card-badge">{{ product.category }}</span>
             </div>
             <div class="card-content">
-                <h3>{{ product.name }}</h3>
+                <h3 onclick="showProductDetails({{ product['id'] }}, '{{ product['name']|safe }}', '{{ product['category']|safe }}', '{{ product['description']|safe }}', {{ product['price'] }}, {{ product['stock'] }})">{{ product.name }}</h3>
                 <p class="description">{{ product.description }}</p>
                 <p class="stock-info {% if product.stock < 10 %}low{% endif %}">
                     {% if product.stock > 0 %}
@@ -31,10 +31,10 @@
                         ❌ Out of Stock
                     {% endif %}
                 </p>
-                <p class="price">${{ "%.2f"|format(product.price) }}</p>
+                <p class="price">₹{{ "%.2f"|format(product.price) }}</p>
                 <div class="product-actions">
                     {% if product.stock > 0 %}
-                    <button class="add-to-cart-btn" onclick="addToCart({{ product.id }}, '{{ product.name }}', {{ product.price }})">Add to Cart</button>
+                    <button class="add-to-cart-btn" onclick="addToCart({{ product.id }}, '{{ product.name|safe }}', {{ product.price }})">Add to Cart</button>
                     {% else %}
                     <button disabled style="opacity: 0.5; cursor: not-allowed;">Out of Stock</button>
                     {% endif %}
@@ -71,7 +71,7 @@
         </div>
 
         <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 1.5rem;">
-            <h3 id="detail-price" style="margin: 0; font-size: 2rem; color: var(--accent); font-weight: 800;">$0.00</h3>
+            <h3 id="detail-price" style="margin: 0; font-size: 2rem; color: var(--accent); font-weight: 800;">₹0.00</h3>
             <button id="detail-add-btn" onclick="addToCartFromModal()" style="width: auto; padding: 14px 35px; background: var(--accent); color: white; font-weight: 700; border: none; border-radius: var(--radius-md); cursor: pointer; font-size: 1rem; transition: all 0.2s;">
                 Add to Cart
             </button>
@@ -143,7 +143,7 @@ function showProductDetails(productId, name, category, description, price, stock
     document.getElementById('detail-category').innerText = category;
     document.getElementById('detail-description').innerText = description;
     document.getElementById('detail-stock').innerText = stock + ' available in stock';
-    document.getElementById('detail-price').innerText = '$' + parseFloat(price).toFixed(2);
+    document.getElementById('detail-price').innerText = '₹' + parseFloat(price).toFixed(2);
 
     document.getElementById('product-details-modal').classList.add('active');
 }
@@ -185,66 +185,6 @@ function addToCart(productId, productName, productPrice) {
         console.error('Error:', error);
         alert('Failed to add item to cart');
     });
-}
-
-// Make product cards clickable to view details
-document.querySelectorAll('.card h3').forEach(element => {
-    element.addEventListener('click', function() {
-        const card = this.closest('.card');
-        const productId = card.id.replace('product-', '');
-        const name = card.querySelector('h3').innerText;
-        const category = card.querySelector('.card-badge').innerText;
-        const description = card.querySelector('.description').innerText;
-        const price = card.querySelector('.price').innerText.replace('$', '');
-        const stock = card.querySelector('.stock-info').innerText.match(/\d+/)[0];
-
-        showProductDetails(productId, name, category, description, price, stock);
-    });
-});
-</script>
-{% endblock %}
-            <div class="card-img-wrapper">
-                <img src="{{ product.img_url }}" alt="{{ product.name }}">
-                <span class="card-badge">{{ product.category }}</span>
-            </div>
-            <div class="card-content">
-                <h3>{{ product.name }}</h3>
-                <p class="description">{{ product.description }}</p>
-                <p class="stock-info {% if product.stock < 10 %}low{% endif %}">
-                    {% if product.stock > 0 %}
-                        📦 {{ product.stock }} in stock
-                    {% else %}
-                        ❌ Out of Stock
-                    {% endif %}
-                </p>
-                <p class="price">${{ "%.2f"|format(product.price) }}</p>
-                <div class="product-actions">
-                    {% if product.stock > 0 %}
-                    <button class="add-to-cart-btn" onclick="addToCart({{ product.id }})">Add to Cart</button>
-                    {% else %}
-                    <button disabled style="opacity: 0.5; cursor: not-allowed;">Out of Stock</button>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-
-<script>
-function addToCart(productId) {
-    fetch('/api/add-to-cart', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({product_id: productId, quantity: 1})
-    })
-    .then(r => r.json())
-    .then(data => {
-        if (data.success) {
-            alert('✓ Item added to cart!');
-        }
-    })
-    .catch(e => console.error('Error:', e));
 }
 </script>
 {% endblock %}
