@@ -1,62 +1,78 @@
 {% extends "layout.html" %}
 
-{% block title %}Inventory Management | Super Shopee{% endblock %}
+{% block title %}Manage Inventory | Super Shopee{% endblock %}
 
 {% block content %}
 <div class="container">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem;">
-        <h1 style="margin: 0;">📦 Inventory Management</h1>
-        <a href="/admin" class="btn-small" style="background: var(--primary); color: white; border-color: var(--primary);">← Back to Dashboard</a>
-    </div>
+    <h1>Inventory Management</h1>
 
-    <div style="background: var(--surface); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-sm); overflow-x: auto;">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Product Name</th>
-                    <th>Category</th>
-                    <th>Price</th>
-                    <th>Current Stock</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for p in products %}
-                <tr>
-                    <td style="color: var(--text-muted); font-weight: 600;">#{{ p['id'] }}</td>
-                    <td style="font-weight: 700;">{{ p['name'] }}</td>
-                    <td><span class="badge" style="background: #e2e8f0; color: #334155;">{{ p['category'] }}</span></td>
-                    <td style="font-weight: 600; color: var(--accent);">₹{{ "%.2f"|format(p['price']) }}</td>
-                    <td>
-                        <input type="number" id="stock-{{ p['id'] }}" value="{{ p['stock'] }}" style="width: 80px; padding: 8px; margin: 0; border: 1px solid var(--border); border-radius: 6px;">
-                    </td>
-                    <td>
-                        <button class="btn-small" onclick="updateStock({{ p['id'] }})" style="padding: 8px 16px; background: #f0fdf4; color: #166534; border-color: #bbf7d0;">Save Stock</button>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; margin-bottom: 3rem;">
+        <div style="background: white; padding: 2rem; border-radius: 16px; border: 1px solid var(--border); height: fit-content; position: sticky; top: 120px;">
+            <h2 style="margin-top: 0;">Add Product</h2>
+            <form method="POST" action="/admin/api/add-product" enctype="multipart/form-data">
+                <label>Product Name</label>
+                <input type="text" name="name" required>
+                <label>Category</label>
+                <select name="category" required>
+                    <option>Fruits</option>
+                    <option>Vegetables</option>
+                    <option>Dairy</option>
+                    <option>Bakery</option>
+                    <option>Pantry</option>
+                    <option>Seafood</option>
+                </select>
+                <label>Price (₹)</label>
+                <input type="number" name="price" step="0.01" required>
+                <label>Stock</label>
+                <input type="number" name="stock" required>
+                <label>Description</label>
+                <textarea name="description" rows="3"></textarea>
+                <label>Image</label>
+                <input type="file" name="image" accept="image/*" required>
+                <button type="submit" class="btn" style="width: 100%;">Add Product</button>
+            </form>
+        </div>
+
+        <div style="background: white; padding: 2rem; border-radius: 16px; border: 1px solid var(--border); overflow-x: auto;">
+            <h2 style="margin-top: 0;">Products</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td>{{ product['name'] }}</td>
+                        <td>{{ product['category'] }}</td>
+                        <td>₹{{ "%.2f"|format(product['price']) }}</td>
+                        <td>{{ product['stock'] }}</td>
+                        <td>
+                            <button onclick="editProduct({{ product['id'] }})" class="btn-small">Edit</button>
+                            <button onclick="deleteProduct({{ product['id'] }})" class="btn-small btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
+{% endblock %}
 
+{% block scripts %}
 <script>
-function updateStock(productId) {
-    const newStock = document.getElementById(`stock-${productId}`).value;
-    
-    fetch(`/admin/api/update-product-stock/${productId}`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({stock: newStock})
-    })
-    .then(r => r.json())
-    .then(data => {
-        if (data.success) {
-            alert('✓ Stock updated successfully!');
-        }
-    })
-    .catch(e => console.error('Error:', e));
+function deleteProduct(id) {
+    if(confirm('Delete this product?')) {
+        fetch(`/admin/api/delete-product/${id}`, {method: 'POST'})
+        .then(r => r.json())
+        .then(d => {if(d.success) location.reload();});
+    }
 }
 </script>
 {% endblock %}

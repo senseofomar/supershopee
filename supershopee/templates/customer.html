@@ -1,38 +1,38 @@
 {% extends "layout.html" %}
 
-{% block title %}Shop Fresh Groceries | Super Shopee{% endblock %}
+{% block title %}Shop | Super Shopee{% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="hero-section">
-        <h1>Welcome to Super Shopee</h1>
-        <p>Farm-fresh produce, dairy, bakery and pantry essentials delivered to your door.</p>
+        <h1>Fresh Groceries & More 🌱</h1>
+        <p>Browse our premium selection of fresh produce, dairy, bakery items and pantry essentials.</p>
     </div>
 
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
-        <h2 style="margin: 0;">Available Products</h2>
-        <a href="/cart" class="btn-small" style="width: auto; padding: 12px 24px; background: var(--accent); color: white; border-color: var(--accent);">View Cart</a>
+    <div style="display: flex; justify-content: space-between; margin-bottom: 2rem;">
+        <h2>Available Products</h2>
+        <a href="/cart" class="btn" style="width: auto;">View Cart</a>
     </div>
 
     <div class="product-grid">
         {% for product in products %}
-        <div class="card" id="product-{{ product['id'] }}">
-            <div class="card-img-wrapper">
-                <img src="{{ product.img_url }}" alt="{{ product.name }}">
-                <span class="card-badge">{{ product.category }}</span>
+        <div class="card">
+            <div class="card-img" style="height: 200px; overflow: hidden; background: #f8fafc;">
+                {% if product['img_url'] and product['img_url'].startswith('http') %}
+                    <img src="{{ product['img_url'] }}" alt="{{ product['name'] }}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=500&auto=format&fit=crop'">
+                {% elif product['img_url'] %}
+                    <img src="{{ url_for('static', filename='uploads/' + product['img_url']) }}" alt="{{ product['name'] }}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=500&auto=format&fit=crop'">
+                {% else %}
+                    <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=500&auto=format&fit=crop" alt="{{ product['name'] }}" style="width: 100%; height: 100%; object-fit: cover;">
+                {% endif %}
+                <span class="badge">{{ product['category'] }}</span>
             </div>
-            <div class="card-content">
-                <h3 style="cursor: pointer; color: var(--primary);">{{ product.name }}</h3>
-                <p class="description">{{ product.description }}</p>
-                <p class="stock-info">
-                    {% if product.stock > 0 %}
-                        In Stock: {{ product.stock }}
-                    {% else %}
-                        Out of Stock
-                    {% endif %}
-                </p>
-                <p class="price">${{ "%.2f"|format(product.price) }}</p>
-                <button class="add-to-cart-btn" onclick="addToCart({{ product['id'] }})">Add to Cart</button>
+            <div class="card-body">
+                <h3 style="margin: 0.5rem 0;">{{ product['name'] }}</h3>
+                <p class="description" style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">{{ product['description'] }}</p>
+                <p class="price" style="font-size: 1.5rem; font-weight: bold; color: var(--accent); margin: 0 0 0.5rem 0;">₹{{ "%.2f"|format(product['price']) }}</p>
+                <p class="stock" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Stock: {{ product['stock'] }}</p>
+                <button class="btn-add" onclick="addToCart({{ product['id'] }})" style="width: 100%; padding: 10px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer;">Add to Cart</button>
             </div>
         </div>
         {% endfor %}
@@ -45,12 +45,15 @@
 function addToCart(productId) {
     fetch('/api/add-to-cart', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({product_id: productId, quantity: 1})
     })
     .then(r => r.json())
     .then(d => {
-        if(d.success) alert('Added to cart!');
+        if(d.success) {
+            alert('✓ Added to cart!');
+            // Notice: Removed the auto-redirect so the user can keep shopping seamlessly!
+        }
     });
 }
 </script>

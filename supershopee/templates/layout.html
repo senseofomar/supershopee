@@ -1,76 +1,46 @@
-{% extends "layout.html" %}
-
-{% block title %}Add Products | Super Shopee{% endblock %}
-
-{% block content %}
-<div class="container">
-    <h1>Staff Panel - Add Products</h1>
-
-    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem;">
-        <div style="background: var(--surface); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--border); height: fit-content; position: sticky; top: 120px;">
-            <h2 style="margin-top: 0; margin-bottom: 1.5rem;">Add New Product</h2>
-            <form method="POST" action="/staff/api/add-product" enctype="multipart/form-data">
-                <label>Product Name</label>
-                <input type="text" name="name" required>
-
-                <label>Category</label>
-                <select name="category" required>
-                    <option>Produce</option>
-                    <option>Dairy</option>
-                    <option>Bakery</option>
-                    <option>Pantry</option>
-                    <option>Seafood</option>
-                </select>
-
-                <label>Price</label>
-                <input type="number" name="price" step="0.01" required>
-
-                <label>Stock</label>
-                <input type="number" name="stock" required>
-
-                <label>Description</label>
-                <textarea name="description" rows="3" required></textarea>
-
-                <label>Image</label>
-                <input type="file" name="image" accept="image/*" required>
-
-                <button type="submit">Add Product</button>
-            </form>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Super Shopee{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    {% if session.get('user') %}
+    <nav class="main-nav">
+        <div class="logo">🛒 Super Shopee</div>
+        <div class="nav-links">
+            {% if session.get('role') == 'Customer' %}
+                <a href="/customer">Shop</a>
+                <a href="/cart">Cart</a>
+            {% elif session.get('role') == 'Admin' %}
+                <a href="/admin">Dashboard</a>
+                <a href="/admin/inventory">Inventory</a>
+                <a href="/admin/orders">Orders</a>
+            {% endif %}
+            <span style="color: var(--text-muted); font-weight: 500;">{{ session['user'] }} ({{ session['role'] }})</span>
+            <a href="/logout" class="btn-small">Logout</a>
         </div>
+    </nav>
+    {% endif %}
 
-        <div>
-            <h2>Current Products</h2>
-            <div style="background: var(--surface); border-radius: var(--radius-lg); padding: 2rem; border: 1px solid var(--border);">
-                <table>
-                    <thead>
-                        <tr><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Action</th></tr>
-                    </thead>
-                    <tbody>
-                        {% for product in products %}
-                        <tr>
-                            <td>{{ product['name'] }}</td>
-                            <td>{{ product['category'] }}</td>
-                            <td>${{ "%.2f"|format(product['price']) }}</td>
-                            <td>{{ product['stock'] }}</td>
-                            <td><button onclick="deleteProduct({{ product['id'] }})" class="btn-small btn-danger" style="padding: 6px 12px; font-size: 0.85rem;">Delete</button></td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" style="margin: 1rem 2rem 0;">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="page-wrapper">
+        {% block content %}{% endblock %}
     </div>
-</div>
-{% endblock %}
 
-{% block scripts %}
-<script>
-function deleteProduct(id) {
-    if(confirm('Delete this product?')) {
-        fetch(`/staff/api/delete-product/${id}`, {method: 'POST'})
-        .then(r => r.json())
-        .then(d => {if(d.success) location.reload();});
-    }
-}
-</script>
-{% endblock %}
+    <footer>
+        <strong>Super Shopee</strong> &copy; 2026 | Premium Grocery Shopping
+    </footer>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

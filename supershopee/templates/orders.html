@@ -1,15 +1,12 @@
 {% extends "layout.html" %}
 
-{% block title %}All Orders | Super Shopee{% endblock %}
+{% block title %}Manage Orders | Super Shopee{% endblock %}
 
 {% block content %}
 <div class="container">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem;">
-        <h1 style="margin: 0;">📋 Order Management</h1>
-        <a href="/admin" class="btn-small" style="background: var(--primary); color: white; border-color: var(--primary);">← Back to Dashboard</a>
-    </div>
+    <h1>Order Management</h1>
 
-    <div style="background: var(--surface); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-sm); overflow-x: auto;">
+    <div style="background: white; padding: 2rem; border-radius: 16px; border: 1px solid var(--border); overflow-x: auto;">
         <table>
             <thead>
                 <tr>
@@ -17,44 +14,42 @@
                     <th>Customer</th>
                     <th>Amount</th>
                     <th>Status</th>
-                    <th>Order Date</th>
+                    <th>Date</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 {% for order in orders %}
                 <tr>
-                    <td style="font-weight: 700; color: var(--text-muted);">#{{ order['id'] }}</td>
+                    <td>#{{ order['id'] }}</td>
                     <td>{{ order['customer_username'] }}</td>
-                    <td style="font-weight: 600; color: var(--accent);">₹{{ "%.2f"|format(order['total_amount']) }}</td>
+                    <td>₹{{ "%.2f"|format(order['total_amount']) }}</td>
                     <td>
-                        <select class="status-select" onchange="updateStatus({{ order['id'] }}, this.value)">
+                        <select onchange="updateStatus({{ order['id'] }}, this.value)" style="padding: 8px; border-radius: 8px; border: 1px solid var(--border);">
                             <option value="Pending" {% if order['status'] == 'Pending' %}selected{% endif %}>Pending</option>
                             <option value="Completed" {% if order['status'] == 'Completed' %}selected{% endif %}>Completed</option>
                             <option value="Cancelled" {% if order['status'] == 'Cancelled' %}selected{% endif %}>Cancelled</option>
                         </select>
                     </td>
-                    <td style="color: var(--text-muted); font-size: 0.9rem;">{{ order['order_date'] }}</td>
-                    <td><button class="btn-small" style="padding: 8px 12px; font-size: 0.85rem;">View</button></td>
+                    <td>{{ order['order_date'] }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
+{% endblock %}
 
+{% block scripts %}
 <script>
-function updateStatus(orderId, newStatus) {
+function updateStatus(orderId, status) {
     fetch(`/admin/api/update-order-status/${orderId}`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({status: newStatus})
+        body: JSON.stringify({status: status})
     })
     .then(r => r.json())
-    .then(data => {
-        if (data.success) alert('✓ Order status updated!');
-    })
-    .catch(e => console.error('Error:', e));
+    .then(d => {if(d.success) alert('✓ Status updated');});
 }
 </script>
 {% endblock %}
