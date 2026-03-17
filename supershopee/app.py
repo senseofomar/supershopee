@@ -1,17 +1,26 @@
 from flask import Flask, render_template, request, redirect, session, flash, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 import sqlite3
 import os
+import random
 from datetime import datetime
 from database import init_db, DB_PATH
 
 app = Flask(__name__)
 app.secret_key = "supershopee_secret_key_2026"
 
-# Configuration for Image Uploads
 UPLOAD_FOLDER = 'static/uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+init_db()
 
 
 def get_db():
@@ -20,10 +29,7 @@ def get_db():
     return conn
 
 
-init_db()
-
-
-# --- AUTHENTICATION ROUTES ---
+# ============ AUTHENTICATION ROUTES ============
 
 @app.route("/", methods=["GET", "POST"])
 def login():
@@ -39,8 +45,12 @@ def login():
             session["user"] = username
             session["role"] = user['role']
 
-            if user['role'] in ['Admin', 'Cashier']:
+            if user['role'] == 'Admin':
                 return redirect("/admin")
+            elif user['role'] == 'Cashier':
+                return redirect("/admin")
+            elif user['role'] == 'Staff':
+                return redirect("/staff/products")
             else:
                 return redirect("/customer")
 
@@ -56,19 +66,19 @@ def signup():
         confirm_password = request.form.get("confirm_password")
 
         if password != confirm_password:
-            return render_template("signup.html", error="Passwords do not match. Please try again.")
+            return render_template("signup.html", error="Passwords do not match")
 
         conn = get_db()
         try:
             conn.execute("INSERT INTO users (username, password, role) VALUES (?, ?, ?)",
                          (username, generate_password_hash(password), 'Customer'))
             conn.commit()
-            flash("Account created successfully! Please log in.")
-            return redirect("/")
-        except sqlite3.IntegrityError:
-            return render_template("signup.html", error="Username already exists")
-        finally:
             conn.close()
+            # Redirect to login, not show message on customer page
+            return redirect("/?signup_success=true")
+        except sqlite3.IntegrityError:
+            conn.close()
+            return render_template("signup.html", error="Username already exists")
 
     return render_template("signup.html")
 
@@ -76,32 +86,10 @@ def signup():
 @app.route("/logout")
 def logout():
     session.clear()
-    flash("You have been logged out.")
     return redirect("/")
 
 
-@app.route("/admin-login", methods=["GET", "POST"])
-def admin_login():
-    if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-
-        conn = get_db()
-        user = conn.execute("SELECT * FROM users WHERE username=? AND role IN ('Admin', 'Cashier')",
-                            (username,)).fetchone()
-        conn.close()
-
-        if user and check_password_hash(user['password'], password):
-            session["user"] = username
-            session["role"] = user['role']
-            return redirect("/admin")
-
-        return render_template("admin_login.html", error="Authentication failed.")
-
-    return render_template("admin_login.html")
-
-
-# --- CUSTOMER ROUTES ---
+# ============ CUSTOMER ROUTES ============
 
 @app.route("/customer")
 def customer():
@@ -121,7 +109,6 @@ def cart():
         return redirect("/")
 
     cart_items = session.get('cart', {})
-
     conn = get_db()
     products_dict = {str(p['id']): p for p in conn.execute("SELECT * FROM products").fetchall()}
     conn.close()
@@ -163,7 +150,7 @@ def add_to_cart():
         session['cart'][product_id] = quantity
 
     session.modified = True
-    return jsonify({'success': True, 'cart_count': sum(session['cart'].values())})
+    return jsonify({'success': True})
 
 
 @app.route("/api/remove-from-cart/<product_id>", methods=["DELETE"])
@@ -275,7 +262,7 @@ def order_confirmation(order_id):
     return render_template('order_confirmation.html', order=order, order_items=order_items)
 
 
-# --- ADMIN/CASHIER ROUTES ---
+# ============ ADMIN/CASHIER ROUTES ============
 
 @app.route("/admin")
 def admin():
@@ -290,6 +277,7 @@ def admin():
     total_revenue = conn.execute("SELECT SUM(total_amount) FROM orders WHERE status = 'Completed'").fetchone()[0] or 0
 
     orders = conn.execute("SELECT * FROM orders ORDER BY order_date DESC LIMIT 10").fetchall()
+    products = conn.execute("SELECT * FROM products ORDER BY category").fetchall()
     conn.close()
 
     return render_template('admin.html',
@@ -297,7 +285,8 @@ def admin():
                            pending_orders=pending_orders,
                            total_products=total_products,
                            total_revenue=total_revenue,
-                           orders=orders)
+                           orders=orders,
+                           products=products)
 
 
 @app.route("/admin/inventory")
@@ -326,7 +315,7 @@ def admin_orders():
 
 @app.route("/admin/api/update-product-stock/<int:product_id>", methods=["POST"])
 def api_update_stock(product_id):
-    if session.get("role") not in ['Admin', 'Cashier']:
+    if session.get("role") not in ['Admin', 'Cashier', 'Staff']:
         return jsonify({'error': 'Unauthorized'}), 401
 
     data = request.get_json()
@@ -334,6 +323,22 @@ def api_update_stock(product_id):
 
     conn = get_db()
     conn.execute("UPDATE products SET stock=? WHERE id=?", (stock, product_id))
+    conn.commit()
+    conn.close()
+
+    return jsonify({'success': True})
+
+
+@app.route("/admin/api/update-product-price/<int:product_id>", methods=["POST"])
+def api_update_price(product_id):
+    if session.get("role") not in ['Admin', 'Cashier']:
+        return jsonify({'error': 'Unauthorized'}), 401
+
+    data = request.get_json()
+    price = float(data.get('price', 0))
+
+    conn = get_db()
+    conn.execute("UPDATE products SET price=? WHERE id=?", (price, product_id))
     conn.commit()
     conn.close()
 
@@ -353,28 +358,71 @@ def api_update_order_status(order_id):
     conn.commit()
     conn.close()
 
-    return jsonify({'success': True, 'new_status': status})
+    return jsonify({'success': True})
+
+
+# ============ STAFF ROUTES ============
+
+@app.route("/staff/products")
+def staff_products():
+    if session.get("role") != "Staff":
+        return redirect("/")
+
+    conn = get_db()
+    products = conn.execute("SELECT * FROM products ORDER BY category").fetchall()
+    conn.close()
+
+    return render_template('staff_products.html', products=products)
 
 
 @app.route("/admin/api/add-product", methods=["POST"])
 def api_add_product():
-    if session.get("role") not in ['Admin', 'Cashier']:
+    if session.get("role") not in ['Admin', 'Staff']:
         return jsonify({'error': 'Unauthorized'}), 401
 
-    data = request.get_json()
+    name = request.form.get('name')
+    category = request.form.get('category')
+    price = float(request.form.get('price', 0))
+    stock = int(request.form.get('stock', 0))
+    description = request.form.get('description', '')
+
+    img_filename = ""
+    if 'image' in request.files:
+        file = request.files['image']
+        if file and file.filename and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            img_filename = f"prod_{random.randint(1000, 9999)}_{filename}"
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], img_filename))
+            img_filename = f"uploads/{img_filename}"
 
     conn = get_db()
     cur = conn.cursor()
     cur.execute("""
                 INSERT INTO products (name, category, price, stock, img_url, description)
                 VALUES (?, ?, ?, ?, ?, ?)
-                """, (data['name'], data['category'], data['price'], data['stock'], data.get('img_url', ''),
-                      data['description']))
+                """, (name, category, price, stock, img_filename, description))
     conn.commit()
     product_id = cur.lastrowid
     conn.close()
 
-    return jsonify({'success': True, 'product_id': product_id})
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify({'success': True, 'product_id': product_id})
+    else:
+        flash('Product added successfully!', 'success')
+        return redirect('/staff/products')
+
+
+@app.route("/admin/api/delete-product/<int:product_id>", methods=["POST"])
+def api_delete_product(product_id):
+    if session.get("role") not in ['Admin', 'Staff']:
+        return jsonify({'error': 'Unauthorized'}), 401
+
+    conn = get_db()
+    conn.execute("DELETE FROM products WHERE id=?", (product_id,))
+    conn.commit()
+    conn.close()
+
+    return jsonify({'success': True})
 
 
 if __name__ == "__main__":

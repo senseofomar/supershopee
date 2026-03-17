@@ -11,18 +11,18 @@
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
         <h2 style="margin: 0;">Fresh Products Available</h2>
-        <a href="/cart" class="btn-small" style="width: auto; padding: 12px 24px; background: var(--accent); color: white; border-color: var(--accent); display: flex; align-items: center; gap: 8px;">🛒 View Cart</a>
+        <a href="/cart" class="btn-small" style="width: auto; padding: 12px 24px; background: var(--accent); color: white; border-color: var(--accent);">🛒 View Cart</a>
     </div>
 
     <div class="product-grid">
         {% for product in products %}
         <div class="card" id="product-{{ product['id'] }}">
             <div class="card-img-wrapper">
-                <img src="{{ product.img_url }}" alt="{{ product.name }}" onerror="this.src='https://images.unsplash.com/photo-1488477181946-6428a0291840?q=80&w=500&auto=format&fit=crop'">
+                <img src="{{ product.img_url }}" alt="{{ product.name }}" style="width: 100%; height: 100%; object-fit: cover;">
                 <span class="card-badge">{{ product.category }}</span>
             </div>
             <div class="card-content">
-                <h3 onclick="showProductDetails({{ product['id'] }}, '{{ product['name']|safe }}', '{{ product['category']|safe }}', '{{ product['description']|safe }}', {{ product['price'] }}, {{ product['stock'] }})">{{ product.name }}</h3>
+                <h3 style="cursor: pointer;" onclick="showProductDetails({{ product['id'] }}, '{{ product['name']|replace(\"'\", \"\\'\") }}', '{{ product['category']|replace(\"'\", \"\\'\") }}', '{{ product['description']|replace(\"'\", \"\\'\") }}', {{ product['price'] }}, {{ product['stock'] }})">{{ product.name }}</h3>
                 <p class="description">{{ product.description }}</p>
                 <p class="stock-info {% if product.stock < 10 %}low{% endif %}">
                     {% if product.stock > 0 %}
@@ -31,10 +31,10 @@
                         ❌ Out of Stock
                     {% endif %}
                 </p>
-                <p class="price">₹{{ "%.2f"|format(product.price) }}</p>
+                <p class="price">${{ "%.2f"|format(product.price) }}</p>
                 <div class="product-actions">
                     {% if product.stock > 0 %}
-                    <button class="add-to-cart-btn" onclick="addToCart({{ product.id }}, '{{ product.name|safe }}', {{ product.price }})">Add to Cart</button>
+                    <button class="add-to-cart-btn" onclick="addToCart({{ product.id }}, '{{ product.name|replace(\"'\", \"\\'\") }}', {{ product.price }})">Add to Cart</button>
                     {% else %}
                     <button disabled style="opacity: 0.5; cursor: not-allowed;">Out of Stock</button>
                     {% endif %}
@@ -53,7 +53,7 @@
             <span style="cursor: pointer; font-size: 2rem; color: var(--text-muted); line-height: 1; transition: color 0.2s;"
                   onmouseover="this.style.color='var(--danger)'"
                   onmouseout="this.style.color='var(--text-muted)'"
-                  onclick="document.getElementById('product-details-modal').classList.remove('active')">&times;</span>
+                  onclick="closeModal()">&times;</span>
         </div>
 
         <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-weight: 500; font-size: 1.1rem;">
@@ -71,7 +71,7 @@
         </div>
 
         <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 1.5rem;">
-            <h3 id="detail-price" style="margin: 0; font-size: 2rem; color: var(--accent); font-weight: 800;">₹0.00</h3>
+            <h3 id="detail-price" style="margin: 0; font-size: 2rem; color: var(--accent); font-weight: 800;">$0.00</h3>
             <button id="detail-add-btn" onclick="addToCartFromModal()" style="width: auto; padding: 14px 35px; background: var(--accent); color: white; font-weight: 700; border: none; border-radius: var(--radius-md); cursor: pointer; font-size: 1rem; transition: all 0.2s;">
                 Add to Cart
             </button>
@@ -79,16 +79,16 @@
     </div>
 </div>
 
-<!-- Add to Cart Success Toast/Modal -->
+<!-- Add to Cart Success Modal -->
 <div id="add-to-cart-modal" class="modal-overlay">
     <div class="modal-content" style="text-align: center; max-width: 450px;">
         <div style="font-size: 5rem; margin-bottom: 1.5rem; animation: popupBounce 0.6s ease-out;">🎉</div>
         <h2 style="margin: 1rem 0; color: var(--accent); font-size: 1.8rem;">Item Added!</h2>
         <p style="color: var(--text-muted); margin-bottom: 0.5rem; font-size: 1.05rem;"><strong id="toast-product-name">Product</strong> has been added to your cart.</p>
-        <p style="color: var(--primary); margin: 0.5rem 0 2rem 0; font-weight: 600; font-size: 1rem;">Quantity: <span id="toast-quantity">1</span> | Price: $<span id="toast-price">0.00</span></p>
+        <p style="color: var(--primary); margin: 0.5rem 0 2rem 0; font-weight: 600; font-size: 1rem;">Qty: <span id="toast-quantity">1</span> | Price: $<span id="toast-price">0.00</span></p>
 
         <div style="display: flex; gap: 1rem; justify-content: center;">
-            <button onclick="document.getElementById('add-to-cart-modal').classList.remove('active')"
+            <button onclick="closeCartModal()"
                     style="flex: 1; padding: 12px 20px; background: var(--accent); color: white; border: none; border-radius: var(--radius-md); font-weight: 700; cursor: pointer; transition: all 0.2s;">
                 Continue Shopping
             </button>
@@ -102,31 +102,9 @@
 
 <style>
 @keyframes popupBounce {
-    0% {
-        transform: scale(0.3);
-        opacity: 0;
-    }
-    50% {
-        transform: scale(1.1);
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-.card {
-    cursor: pointer;
-}
-
-.card h3 {
-    cursor: pointer;
-    color: var(--primary);
-    transition: color 0.2s;
-}
-
-.card:hover h3 {
-    color: var(--accent);
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
 }
 </style>
 
@@ -138,20 +116,22 @@ let currentProduct = null;
 
 function showProductDetails(productId, name, category, description, price, stock) {
     currentProduct = { id: productId, name: name, price: price };
-
     document.getElementById('detail-product-name').innerText = name;
     document.getElementById('detail-category').innerText = category;
     document.getElementById('detail-description').innerText = description;
     document.getElementById('detail-stock').innerText = stock + ' available in stock';
-    document.getElementById('detail-price').innerText = '₹' + parseFloat(price).toFixed(2);
-
+    document.getElementById('detail-price').innerText = '$' + parseFloat(price).toFixed(2);
     document.getElementById('product-details-modal').classList.add('active');
+}
+
+function closeModal() {
+    document.getElementById('product-details-modal').classList.remove('active');
 }
 
 function addToCartFromModal() {
     if (currentProduct) {
         addToCart(currentProduct.id, currentProduct.name, currentProduct.price);
-        document.getElementById('product-details-modal').classList.remove('active');
+        closeModal();
     }
 }
 
@@ -167,7 +147,6 @@ function addToCart(productId, productName, productPrice) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Show toast/modal notification
             document.getElementById('toast-product-name').innerText = productName;
             document.getElementById('toast-quantity').innerText = '1';
             document.getElementById('toast-price').innerText = parseFloat(productPrice).toFixed(2);
@@ -175,16 +154,21 @@ function addToCart(productId, productName, productPrice) {
             const modal = document.getElementById('add-to-cart-modal');
             modal.classList.add('active');
 
-            // Auto-close after 5 seconds
             setTimeout(() => {
                 modal.classList.remove('active');
             }, 5000);
+        } else {
+            alert('Error: ' + (data.error || 'Failed to add item'));
         }
     })
     .catch(error => {
         console.error('Error:', error);
         alert('Failed to add item to cart');
     });
+}
+
+function closeCartModal() {
+    document.getElementById('add-to-cart-modal').classList.remove('active');
 }
 </script>
 {% endblock %}
