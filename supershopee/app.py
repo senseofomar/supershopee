@@ -121,6 +121,18 @@ def customer():
     return render_template("customer.html", products=products)
 
 
+@app.route("/my-orders")
+def my_orders():
+    if session.get("role") != "Customer":
+        return redirect("/")
+
+    conn = get_db()
+    orders = conn.execute("SELECT * FROM orders WHERE customer_username=? ORDER BY order_date DESC",
+                          (session['user'],)).fetchall()
+    conn.close()
+
+    return render_template("my_orders.html", orders=orders)
+
 @app.route("/cart")
 def cart():
     if session.get("role") != "Customer":

@@ -4,10 +4,14 @@
 
 {% block content %}
 <div class="container">
-    <h1>Inventory Management</h1>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem;">
+        <h1 style="margin: 0;">📦 Inventory Management</h1>
+        <a href="/admin" class="btn-small" style="background: var(--primary); color: white; border-color: var(--primary);">← Back to Dashboard</a>
+    </div>
 
-    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; margin-bottom: 3rem;">
-        <div style="background: white; padding: 2rem; border-radius: 16px; border: 1px solid var(--border); height: fit-content; position: sticky; top: 120px;">
+    <div style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap;">
+
+        <div style="background: white; padding: 2rem; border-radius: 16px; border: 1px solid var(--border); width: 100%; max-width: 350px; position: sticky; top: 100px; flex-shrink: 0;">
             <h2 style="margin-top: 0;">Add Product</h2>
             <form method="POST" action="/admin/api/add-product" enctype="multipart/form-data">
                 <label>Product Name</label>
@@ -21,39 +25,49 @@
                     <option>Pantry</option>
                     <option>Seafood</option>
                 </select>
-                <label>Price (₹)</label>
-                <input type="number" name="price" step="0.01" required>
-                <label>Stock</label>
-                <input type="number" name="stock" required>
+                <div style="display: flex; gap: 1rem;">
+                    <div style="flex: 1;">
+                        <label>Price (₹)</label>
+                        <input type="number" name="price" step="0.01" required>
+                    </div>
+                    <div style="flex: 1;">
+                        <label>Stock</label>
+                        <input type="number" name="stock" required>
+                    </div>
+                </div>
                 <label>Description</label>
                 <textarea name="description" rows="3"></textarea>
-                <label>Image</label>
-                <input type="file" name="image" accept="image/*" required>
-                <button type="submit" class="btn" style="width: 100%;">Add Product</button>
+                <label>Image Upload</label>
+                <input type="file" name="image" accept="image/*">
+                <button type="submit" class="btn" style="width: 100%; margin-top: 1rem;">Add Product</button>
             </form>
         </div>
 
-        <div style="background: white; padding: 2rem; border-radius: 16px; border: 1px solid var(--border); overflow-x: auto;">
+        <div style="background: white; padding: 2rem; border-radius: 16px; border: 1px solid var(--border); flex-grow: 1; overflow-x: auto;">
             <h2 style="margin-top: 0;">Products</h2>
-            <table>
+            <table style="width: 100%; min-width: 600px;">
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Category</th>
-                        <th>Price</th>
+                        <th>Price (₹)</th>
                         <th>Stock</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for product in products %}
-                    <tr>
-                        <td>{{ product['name'] }}</td>
-                        <td>{{ product['category'] }}</td>
-                        <td>₹{{ "%.2f"|format(product['price']) }}</td>
-                        <td>{{ product['stock'] }}</td>
+                    <tr id="row-{{ product['id'] }}">
+                        <td style="font-weight: 600;">{{ product['name'] }}</td>
+                        <td><span class="badge" style="background: #e2e8f0; color: #334155;">{{ product['category'] }}</span></td>
                         <td>
-                            <button onclick="editProduct({{ product['id'] }})" class="btn-small">Edit</button>
+                            <input type="number" step="0.01" id="price-{{ product['id'] }}" value="{{ product['price'] }}" style="width: 90px; padding: 6px; margin: 0; border: 1px solid var(--border); border-radius: 6px;">
+                        </td>
+                        <td>
+                            <input type="number" id="stock-{{ product['id'] }}" value="{{ product['stock'] }}" style="width: 80px; padding: 6px; margin: 0; border: 1px solid var(--border); border-radius: 6px;">
+                        </td>
+                        <td>
+                            <button onclick="saveProduct({{ product['id'] }}, this)" class="btn-small" style="background: #d1fae5; color: #065f46; border-color: #10b981;">Save</button>
                             <button onclick="deleteProduct({{ product['id'] }})" class="btn-small btn-danger">Delete</button>
                         </td>
                     </tr>
@@ -67,11 +81,46 @@
 
 {% block scripts %}
 <script>
+// New Save Product Logic for Admin
+function saveProduct(productId, btnElement) {
+    const newStock = document.getElementById(`stock-${productId}`).value;
+    const newPrice = document.getElementById(`price-${productId}`).value;
+
+    const originalText = btnElement.innerText;
+    btnElement.innerText = "Wait...";
+
+    // Assuming you added the /admin/api/update-product/ route from previous turns!
+    // If not, we will update price and stock independently using your existing routes.
+
+    // Update Stock
+    fetch(`/admin/api/update-product-stock/${productId}`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({stock: newStock})
+    }).then(() => {
+        // Update Price
+        fetch(`/admin/api/update-product-price/${productId}`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({price: newPrice})
+        }).then(() => {
+            btnElement.innerText = "Saved ✓";
+            setTimeout(() => btnElement.innerText = originalText, 2000);
+        });
+    });
+}
+
 function deleteProduct(id) {
-    if(confirm('Delete this product?')) {
+    if(confirm('Are you sure you want to remove this product?')) {
         fetch(`/admin/api/delete-product/${id}`, {method: 'POST'})
         .then(r => r.json())
-        .then(d => {if(d.success) location.reload();});
+        .then(d => {
+            if(d.success) {
+                const row = document.getElementById(`row-${id}`);
+                row.style.opacity = '0';
+                setTimeout(() => row.remove(), 300);
+            }
+        });
     }
 }
 </script>

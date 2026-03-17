@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}My Orders | Super Shopee{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1 style="margin: 0;">📦 My Order History</h1>
+        <a href="/customer" class="btn-small">Continue Shopping</a>
+    </div>
+
+    <div style="background: white; border-radius: 16px; padding: 2rem; border: 1px solid var(--border); overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Total Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td style="font-weight: 700; color: var(--text-muted);">#{{ order['id'] }}</td>
+                    <td>{{ order['order_date'] }}</td>
+                    <td style="font-weight: 600; color: var(--accent);">₹{{ "%.2f"|format(order['total_amount']) }}</td>
+                    <td>
+                        <span class="badge badge-{{ order['status']|lower }}" style="background: {% if order['status'] == 'Approved' or order['status'] == 'Completed' %}#d1fae5; color: #065f46;{% elif order['status'] == 'Cancelled' or order['status'] == 'Rejected' %}#fee2e2; color: #991b1b;{% else %}#fef3c7; color: #92400e;{% endif %};">
+                            {{ order['status'] }}
+                        </span>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" style="text-align: center; padding: 3rem; color: var(--text-muted);">You haven't placed any orders yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
