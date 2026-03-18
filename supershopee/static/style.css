@@ -318,50 +318,36 @@ tr:hover {
 
 .split-left {
     flex: 1;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    color: white;
+    background: linear-gradient(to right, rgba(6, 78, 59, 0.9), rgba(6, 78, 59, 0.4)), url('https://images.unsplash.com/photo-1488477181946-6428a0291840?q=80&w=2075&auto=format&fit=crop') center/cover no-repeat;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    padding: 3rem;
+    padding: 4rem 10%;
+    color: white;
+    box-shadow: inset -10px 0 20px rgba(0,0,0,0.1);
+}
+
+.split-left h1 {
+    font-size: 3rem;
+    line-height: 1.2;
+    margin: 0 0 1rem 0;
+}
+
+.split-left p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    opacity: 0.85;
 }
 
 .split-right {
     flex: 1;
+    background: var(--surface);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 2rem;
-    background: var(--bg-page);
-}
-
-.brand-logo {
-    font-size: 1.8rem;
-    font-weight: 800;
-    margin-bottom: 2rem;
-}
-
-.brand-logo-white {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: white;
-}
-
-.hero-text h1 {
-    font-size: 2.5rem;
-    margin: 0 0 1rem 0;
-}
-
-.hero-text p {
-    font-size: 1.1rem;
-    opacity: 0.9;
-    margin: 0;
 }
 
 .form-wrapper {
-    background: white;
-    padding: 2rem;
-    border-radius: var(--radius-lg);
     width: 100%;
     max-width: 400px;
     box-shadow: var(--shadow-lg);
@@ -404,27 +390,48 @@ tr:hover {
 
 .divider {
     text-align: center;
-    margin: 1.5rem 0;
+    margin: 2rem 0;
     color: var(--text-muted);
-    font-weight: 600;
+    font-size: 0.9rem;
 }
 
+.divider::before,
+.divider::after {
+    content: '';
+    display: inline-block;
+    flex: 1;
+    border-bottom: 1px solid var(--border);
+}
+
+.divider::before { margin-right: 1em; }
+.divider::after { margin-left: 1em; }
+
+/* FIXED: Create button styling - now uses bright green accent color */
 .create-btn {
     display: block;
+    width: 100%;
     text-align: center;
-    background: var(--primary);
+    padding: 14px 24px;
+    background: var(--accent);
     color: white;
-    padding: 12px;
-    margin-top: 1rem;
+    border: none;
     border-radius: var(--radius-md);
-    text-decoration: none;
     font-weight: 700;
-    transition: all 0.2s;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 1rem;
 }
 
 .create-btn:hover {
-    background: var(--primary-hover);
+    background: var(--accent-hover);
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.create-btn:active {
+    transform: translateY(0);
 }
 
 /* Loading States */

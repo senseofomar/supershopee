@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="460b9426-4374-4a61-b2d0-38ddbd30ba8b" name="Changes" comment="last polish">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/supershopee/templates/error_404.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/supershopee/templates/error_500.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/supershopee/templates/order_history.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/database.py" afterDir="false" />
+    <list default="true" id="460b9426-4374-4a61-b2d0-38ddbd30ba8b" name="Changes" comment="last polishing">
+      <change beforePath="$PROJECT_DIR$/supershopee/database.db" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/supershopee/static/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/supershopee/templates/customer.html" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/templates/customer.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/templates/inventory.html" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/templates/inventory.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/templates/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/templates/layout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/templates/order_confirmation.html" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/templates/order_confirmation.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/templates/login.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +97,7 @@
       <workItem from="1773741966630" duration="473000" />
       <workItem from="1773742456307" duration="12072000" />
       <workItem from="1773806733387" duration="3417000" />
-      <workItem from="1773832052692" duration="5143000" />
+      <workItem from="1773832052692" duration="6176000" />
     </task>
     <task id="LOCAL-00001" summary="app initialise">
       <option name="closed" value="true" />
@@ -269,7 +259,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773837405982</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="last polishing">
+      <option name="closed" value="true" />
+      <created>1773851458813</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1773851458813</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -302,9 +300,10 @@
     <MESSAGE value="bugs bugs bugs" />
     <MESSAGE value="new database" />
     <MESSAGE value="last polish" />
-    <option name="LAST_COMMIT_MESSAGE" value="last polish" />
+    <MESSAGE value="last polishing" />
+    <option name="LAST_COMMIT_MESSAGE" value="last polishing" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/supershopee$app.coverage" NAME="app Coverage Results" MODIFIED="1773837222614" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supershopee" />
+    <SUITE FILE_PATH="coverage/supershopee$app.coverage" NAME="app Coverage Results" MODIFIED="1773851495634" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supershopee" />
   </component>
 </project>

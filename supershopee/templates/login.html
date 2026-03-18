@@ -17,31 +17,18 @@
             box-shadow: inset -10px 0 20px rgba(0,0,0,0.1);
         }
 
-        .brand-logo-white {
-            font-size: 1.8rem; font-weight: 800; color: white;
-            display: flex; align-items: center; gap: 8px; margin-bottom: auto;
-        }
-        .brand-logo-white::after {
-            content: ''; display: inline-block; width: 8px; height: 8px;
-            background: var(--accent); border-radius: 50%;
-        }
+        .brand-logo-white { font-weight: 800; font-size: 1.8rem; margin-bottom: 2rem; }
 
-        .hero-text-container { margin-bottom: auto; }
-        .hero-text-container h1 {
-            font-size: 4rem; font-weight: 800; margin-bottom: 1.5rem;
-            line-height: 1.1; letter-spacing: -1px;
-        }
-        .hero-text-container p {
-            font-size: 1.3rem; color: #cbd5e1; max-width: 450px; line-height: 1.6;
-        }
+        .hero-text-container { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        .hero-text-container h1 { font-size: 3.2rem; line-height: 1.2; margin: 0 0 1rem 0; }
+        .hero-text-container p { font-size: 1.1rem; line-height: 1.6; opacity: 0.85; }
 
         .split-right {
             flex: 1;
             background: var(--surface);
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             padding: 2rem;
             position: relative; /* Required for the discrete admin link */
         }
@@ -49,11 +36,25 @@
         .form-wrapper { width: 100%; max-width: 420px; }
 
         .create-btn {
-            display: block; width: 100%; text-align: center; padding: 14px 24px;
-            border: 2px solid var(--border); border-radius: var(--radius-md);
-            font-weight: 700; color: var(--primary); text-decoration: none; transition: all 0.2s;
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 14px 24px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            font-size: 1rem;
         }
-        .create-btn:hover { background: var(--bg-page); border-color: var(--text-muted); }
+        .create-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
 
         .divider { display: flex; align-items: center; text-align: center; margin: 2rem 0; color: var(--text-muted); font-size: 0.9rem; }
         .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--border); }
@@ -103,11 +104,12 @@
                 <label>Password</label>
                 <input type="password" name="password" placeholder="Enter your password" required style="margin-bottom: 1.5rem;">
 
-                <button type="submit" style="background: var(--accent); color: white; font-weight: 700; font-size: 1.1rem; border-radius: var(--radius-md); padding: 14px;">Sign In</button>
+                <button type="submit" style="background: var(--accent); color: white; font-weight: 700; font-size: 1.1rem; border-radius: var(--radius-md); padding: 14px; width: 100%; border: none; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='var(--accent-hover)'" onmouseout="this.style.background='var(--accent)'">Sign In</button>
             </form>
 
             <div class="divider">or</div>
 
+            <!-- FIXED: Button is now bright green (var(--accent)) with proper styling -->
             <a href="/signup" class="create-btn">Create New Account</a>
         </div>
 
