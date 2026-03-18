@@ -2,8 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="460b9426-4374-4a61-b2d0-38ddbd30ba8b" name="Changes" comment="last polishing">
-      <change afterPath="$PROJECT_DIR$/supershopee/static/products/download_images.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/download_images.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/almonds.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/almonds.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/apples.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/apples.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/bananas.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/bananas.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/bread.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/bread.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/broccoli.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/broccoli.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/butter.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/butter.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/carrots.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/carrots.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/cheese.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/cheese.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/cookies.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/cookies.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/croissants.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/croissants.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/milk.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/milk.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/onions.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/onions.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/oranges.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/oranges.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/pasta.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/pasta.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/rice.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/rice.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/strawberries.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/strawberries.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/tomatoes.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/tomatoes.jpg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +112,7 @@
       <workItem from="1773741966630" duration="473000" />
       <workItem from="1773742456307" duration="12072000" />
       <workItem from="1773806733387" duration="3417000" />
-      <workItem from="1773832052692" duration="9430000" />
+      <workItem from="1773832052692" duration="9980000" />
     </task>
     <task id="LOCAL-00001" summary="app initialise">
       <option name="closed" value="true" />
@@ -282,7 +298,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773871302869</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="last polishing">
+      <option name="closed" value="true" />
+      <created>1773871678714</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1773871678714</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
