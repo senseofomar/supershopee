@@ -1,29 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Login | Super Shopee</title>
+    <title>System Access | Super Shopee</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body style="margin: 0; padding: 0; background: linear-gradient(rgba(6, 78, 59, 0.9), rgba(6, 78, 59, 0.9)), url('https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=2000') center/cover;">
-<div style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
-    <div style="background: white; padding: 3rem; border-radius: 16px; width: 100%; max-width: 420px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
-        <div style="text-align: center; margin-bottom: 2rem;">
-            <div style="font-size: 3rem; margin-bottom: 1rem;">🔐</div>
-            <h2 style="margin: 0; color: var(--primary);">Admin Portal</h2>
-            <p style="color: var(--text-muted); margin-top: 0.5rem;">Authorized access only</p>
+<body style="margin: 0; padding: 0; min-height: 100vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(rgba(6, 78, 59, 0.95), rgba(6, 78, 59, 0.98)), url('https://images.unsplash.com/photo-1556740738-b6a63e27c4df?q=80&w=2070&auto=format&fit=crop') no-repeat center center fixed; background-size: cover; font-family: 'Plus Jakarta Sans', sans-serif;">
+
+<div style="background: rgba(6, 78, 59, 0.9); border: 1px solid rgba(16, 185, 129, 0.2); backdrop-filter: blur(10px); color: white; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); padding: 3.5rem; border-radius: 16px; width: 100%; max-width: 420px;">
+
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <span style="font-size: 3rem; display: block; margin-bottom: 10px;">🔐</span>
+        <h2 style="margin: 0; font-size: 1.8rem;">System Access</h2>
+        <p style="color: #cbd5e1; margin-top: 5px;">Authorized personnel only.</p>
+    </div>
+
+    {% if error %}
+        <div style="background: rgba(239, 68, 68, 0.1); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.2); padding: 12px; border-radius: 8px; margin-bottom: 1.5rem; text-align: center; font-weight: 600; font-size: 0.9rem;">
+            {{ error }}
         </div>
-        {% if error %}
-        <div class="alert alert-danger">{{ error }}</div>
-        {% endif %}
-        <form method="POST">
-            <label>Admin Username</label>
-            <input type="text" name="username" required autofocus>
-            <label>Password</label>
-            <input type="password" name="password" required>
-            <button type="submit">Authenticate</button>
-        </form>
-        <p style="text-align: center; margin-top: 2rem;"><a href="/" style="color: var(--accent);">← Back to Customer Login</a></p>
+    {% endif %}
+
+    <form method="POST">
+        <label style="color: #cbd5e1; display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 8px;">Admin ID</label>
+        <input type="text" name="username" placeholder="Enter admin username" required autofocus style="width: 100%; padding: 14px 16px; margin-bottom: 1.5rem; background: rgba(0,0,0,0.2); border: 1.5px solid rgba(16, 185, 129, 0.3); border-radius: 10px; color: white; outline: none; box-sizing: border-box;">
+
+        <label style="color: #cbd5e1; display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 8px;">Security Key</label>
+        <input type="password" name="password" placeholder="Enter password" required style="width: 100%; padding: 14px 16px; margin-bottom: 1.5rem; background: rgba(0,0,0,0.2); border: 1.5px solid rgba(16, 185, 129, 0.3); border-radius: 10px; color: white; outline: none; box-sizing: border-box;">
+
+        <input type="hidden" name="role" value="Admin">
+
+        <button type="submit" style="width: 100%; padding: 14px 24px; border-radius: 10px; font-weight: 800; font-size: 1rem; cursor: pointer; border: none; background: #10b981; color: white; text-transform: uppercase; letter-spacing: 1px; margin-top: 1rem;">Authenticate</button>
+    </form>
+
+    <div style="margin-top: 2rem; text-align: center;">
+        <a href="/" style="color: #94a3b8; text-decoration: none; font-size: 0.85rem; transition: color 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#94a3b8'">← Return to Public Portal</a>
     </div>
 </div>
+
 </body>
 </html>

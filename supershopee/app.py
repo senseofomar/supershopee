@@ -320,9 +320,12 @@ def admin():
     }
 
     orders = conn.execute("SELECT * FROM orders ORDER BY order_date DESC LIMIT 10").fetchall()
+
+    # Fetch all non-admin users to display in the dashboard
+    users = conn.execute("SELECT * FROM users WHERE role != 'Admin' ORDER BY id DESC").fetchall()
     conn.close()
 
-    return render_template('admin.html', stats=stats, orders=orders)
+    return render_template('admin.html', stats=stats, orders=orders, users=users)
 
 
 @app.route("/admin/inventory")
@@ -437,6 +440,19 @@ def admin_update_order_status(order_id):
 
     conn = get_db()
     conn.execute("UPDATE orders SET status=? WHERE id=?", (status, order_id))
+    conn.commit()
+    conn.close()
+
+    return jsonify({'success': True})
+
+@app.route("/admin/api/delete-user/<int:user_id>", methods=["POST"])
+def admin_delete_user(user_id):
+    if session.get("role") != 'Admin':
+        return jsonify({'error': 'Unauthorized'}), 401
+
+    conn = get_db()
+    # Delete the user securely
+    conn.execute("DELETE FROM users WHERE id=?", (user_id,))
     conn.commit()
     conn.close()
 

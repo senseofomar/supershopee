@@ -6,65 +6,95 @@
 <div class="container">
     <h1>Admin Dashboard</h1>
 
-    <div class="stats-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 2rem;">
-        <div class="stat-card" style="background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border);">
-            <h3 style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase;">Total Orders</h3>
-            <p style="font-size: 2rem; font-weight: 700; margin: 0;">{{ stats['total_orders'] }}</p>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Total Orders</h3>
+            <p>{{ stats['total_orders'] }}</p>
         </div>
-        <div class="stat-card" style="background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border);">
-            <h3 style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase;">Pending Orders</h3>
-            <p style="font-size: 2rem; font-weight: 700; margin: 0; color: var(--danger);">{{ stats['pending_orders'] }}</p>
+        <div class="stat-card">
+            <h3>Pending Orders</h3>
+            <p style="color: var(--danger);">{{ stats['pending_orders'] }}</p>
         </div>
-        <div class="stat-card" style="background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border);">
-            <h3 style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase;">Active Products</h3>
-            <p style="font-size: 2rem; font-weight: 700; margin: 0;">{{ stats['total_products'] }}</p>
+        <div class="stat-card">
+            <h3>Active Products</h3>
+            <p>{{ stats['total_products'] }}</p>
         </div>
-        <div class="stat-card" style="background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border);">
-            <h3 style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase;">Total Revenue</h3>
-            <p style="font-size: 2rem; font-weight: 700; margin: 0; color: var(--accent);">₹{{ "%.2f"|format(stats['total_revenue']) }}</p>
+        <div class="stat-card">
+            <h3>Total Revenue</h3>
+            <p style="color: var(--accent);">₹{{ "%.2f"|format(stats['total_revenue']) }}</p>
         </div>
     </div>
 
-    <div style="background: white; padding: 2rem; border-radius: 16px; margin-top: 2rem; border: 1px solid var(--border);">
+    <div style="background: white; padding: 2rem; border-radius: 16px; margin-top: 2rem; border: 1px solid var(--border); overflow-x: auto;">
         <h2 style="margin-top: 0;">Recent Orders</h2>
-        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+        <table style="width: 100%;">
             <thead>
-                <tr style="border-bottom: 2px solid var(--border);">
-                    <th style="padding: 12px;">Order ID</th>
-                    <th style="padding: 12px;">Customer</th>
-                    <th style="padding: 12px;">Amount</th>
-                    <th style="padding: 12px;">Status</th>
-                    <th style="padding: 12px;">Date</th>
-                    <th style="padding: 12px;">Action</th>
+                <tr>
+                    <th style="padding: 12px; border-bottom: 2px solid var(--border);">Order ID</th>
+                    <th style="padding: 12px; border-bottom: 2px solid var(--border);">Customer</th>
+                    <th style="padding: 12px; border-bottom: 2px solid var(--border);">Amount</th>
+                    <th style="padding: 12px; border-bottom: 2px solid var(--border);">Status</th>
+                    <th style="padding: 12px; border-bottom: 2px solid var(--border);">Date</th>
+                    <th style="padding: 12px; border-bottom: 2px solid var(--border);">Action</th>
                 </tr>
             </thead>
             <tbody>
                 {% for order in orders %}
-                <tr style="border-bottom: 1px solid var(--border);">
-                    <td style="padding: 12px; font-weight: bold; color: var(--text-muted);">#{{ order['id'] }}</td>
+                <tr>
+                    <td style="padding: 12px; font-weight: 700; color: var(--text-muted);">#{{ order['id'] }}</td>
                     <td style="padding: 12px;">{{ order['customer_username'] }}</td>
                     <td style="padding: 12px; font-weight: 600; color: var(--accent);">₹{{ "%.2f"|format(order['total_amount']) }}</td>
-
                     <td style="padding: 12px;">
-                        <select onchange="updateStatus({{ order['id'] }}, this.value)" style="padding: 6px; border-radius: 6px; border: 1px solid var(--border); font-weight: 600; color: var(--primary); background: #f8fafc;">
+                        <select onchange="updateStatus({{ order['id'] }}, this.value)" style="padding: 6px; border-radius: 6px; border: 1px solid var(--border); font-weight: 600; color: var(--primary);">
                             <option value="Pending" {% if order['status'] == 'Pending' %}selected{% endif %}>Pending</option>
                             <option value="Completed" {% if order['status'] == 'Completed' %}selected{% endif %}>Completed</option>
                             <option value="Cancelled" {% if order['status'] == 'Cancelled' %}selected{% endif %}>Cancelled</option>
                         </select>
                     </td>
-
                     <td style="padding: 12px; color: var(--text-muted); font-size: 0.9rem;">{{ order['order_date'] }}</td>
-                    <td style="padding: 12px;"><a href="/admin/orders" class="btn-small" style="padding: 6px 12px; border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text-main);">View</a></td>
+                    <td style="padding: 12px;"><a href="/admin/orders" class="btn-small" style="padding: 6px 12px;">View</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+
+    <div style="background: white; padding: 2rem; border-radius: 16px; margin-top: 2rem; border: 1px solid var(--border); overflow-x: auto;">
+        <h2 style="margin-top: 0;">Registered Customers</h2>
+        <table style="width: 100%;">
+            <thead>
+                <tr>
+                    <th style="padding: 12px; border-bottom: 2px solid var(--border);">User ID</th>
+                    <th style="padding: 12px; border-bottom: 2px solid var(--border);">Username</th>
+                    <th style="padding: 12px; border-bottom: 2px solid var(--border);">Role</th>
+                    <th style="padding: 12px; border-bottom: 2px solid var(--border);">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in users %}
+                <tr id="user-row-{{ u['id'] }}">
+                    <td style="padding: 12px; font-weight: 700; color: var(--text-muted);">#{{ u['id'] }}</td>
+                    <td style="padding: 12px; font-weight: 600;">{{ u['username'] }}</td>
+                    <td style="padding: 12px;"><span class="badge" style="background: #e2e8f0; color: #334155;">{{ u['role'] }}</span></td>
+                    <td style="padding: 12px;">
+                        <button onclick="deleteUser({{ u['id'] }})" class="btn-small btn-danger" style="padding: 6px 12px;">Delete User</button>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" style="text-align: center; padding: 2rem; color: var(--text-muted);">No customers registered yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 </div>
 {% endblock %}
 
 {% block scripts %}
 <script>
+// Keep existing order status logic
 function updateStatus(orderId, status) {
     fetch(`/admin/api/update-order-status/${orderId}`, {
         method: 'POST',
@@ -75,6 +105,27 @@ function updateStatus(orderId, status) {
     .then(d => {
         if(d.success) alert('✓ Order Status Updated successfully!');
     });
+}
+
+// NEW: Delete User Logic
+function deleteUser(userId) {
+    if(confirm('WARNING: Are you sure you want to permanently delete this user?')) {
+        fetch(`/admin/api/delete-user/${userId}`, {
+            method: 'POST'
+        })
+        .then(r => r.json())
+        .then(d => {
+            if(d.success) {
+                // Smoothly fade out the row without refreshing the page
+                const row = document.getElementById(`user-row-${userId}`);
+                row.style.transition = 'opacity 0.3s ease';
+                row.style.opacity = '0';
+                setTimeout(() => row.remove(), 300);
+            } else {
+                alert('Error deleting user.');
+            }
+        });
+    }
 }
 </script>
 {% endblock %}

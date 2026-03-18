@@ -35,7 +35,7 @@
 
                 <div style="display: flex; gap: 8px;">
                     <input type="number" id="qty-{{ product['id'] }}" value="1" min="1" max="{{ product['stock'] }}" style="width: 70px; margin: 0; padding: 8px; border-radius: 8px; border: 1px solid var(--border);">
-                    <button class="btn-add" onclick="addToCart({{ product['id'] }}, '{{ product['name']|replace(\"'\", \"\\\\'\") }}')" style="flex-grow: 1; padding: 10px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Add to Cart</button>
+                    <button class="btn-add" onclick="addToCart({{ product['id'] }}, this)" data-name="{{ product['name'] }}" style="flex-grow: 1; padding: 10px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Add to Cart</button>
                 </div>
             </div>
         </div>
@@ -50,8 +50,9 @@
 
 {% block scripts %}
 <script>
-function addToCart(productId, productName) {
+function addToCart(productId, btnElement) {
     const qty = document.getElementById(`qty-${productId}`).value;
+    const productName = btnElement.getAttribute('data-name'); // Safe JS extraction
 
     fetch('/api/add-to-cart', {
         method: 'POST',
@@ -61,7 +62,6 @@ function addToCart(productId, productName) {
     .then(r => r.json())
     .then(d => {
         if(d.success) {
-            // Show smooth toast instead of alert
             const toast = document.getElementById("toast");
             document.getElementById("toast-msg").innerText = `${qty}x ${productName} added to cart!`;
             toast.style.visibility = "visible";

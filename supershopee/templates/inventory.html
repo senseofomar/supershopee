@@ -9,66 +9,71 @@
         <a href="/admin" class="btn-small" style="background: var(--primary); color: white; border-color: var(--primary);">← Back to Dashboard</a>
     </div>
 
-    <div style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap;">
+    <div style="display: grid; grid-template-columns: 320px 1fr; gap: 2rem; align-items: start;">
 
-        <div style="background: white; padding: 2rem; border-radius: 16px; border: 1px solid var(--border); width: 100%; max-width: 350px; position: sticky; top: 100px; flex-shrink: 0;">
-            <h2 style="margin-top: 0;">Add Product</h2>
+        <div style="background: white; padding: 2rem; border-radius: 16px; border: 1px solid var(--border);">
+            <h2 style="margin-top: 0; margin-bottom: 1.5rem;">Add Product</h2>
             <form method="POST" action="/admin/api/add-product" enctype="multipart/form-data">
                 <label>Product Name</label>
-                <input type="text" name="name" required>
+                <input type="text" name="name" required style="margin-bottom: 1rem;">
+
                 <label>Category</label>
-                <select name="category" required>
+                <select name="category" required style="margin-bottom: 1rem;">
                     <option>Fruits</option>
                     <option>Vegetables</option>
                     <option>Dairy</option>
                     <option>Bakery</option>
                     <option>Pantry</option>
-                    <option>Seafood</option>
+                    <option>Beverages</option>
                 </select>
-                <div style="display: flex; gap: 1rem;">
+
+                <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
                     <div style="flex: 1;">
                         <label>Price (₹)</label>
-                        <input type="number" name="price" step="0.01" required>
+                        <input type="number" name="price" step="0.01" required style="margin-bottom: 0;">
                     </div>
                     <div style="flex: 1;">
                         <label>Stock</label>
-                        <input type="number" name="stock" required>
+                        <input type="number" name="stock" required style="margin-bottom: 0;">
                     </div>
                 </div>
+
                 <label>Description</label>
-                <textarea name="description" rows="3"></textarea>
+                <textarea name="description" rows="3" style="margin-bottom: 1rem;"></textarea>
+
                 <label>Image Upload</label>
-                <input type="file" name="image" accept="image/*">
-                <button type="submit" class="btn" style="width: 100%; margin-top: 1rem;">Add Product</button>
+                <input type="file" name="image" accept="image/*" style="margin-bottom: 1rem; padding: 10px;">
+
+                <button type="submit" class="btn" style="width: 100%;">Add Product</button>
             </form>
         </div>
 
-        <div style="background: white; padding: 2rem; border-radius: 16px; border: 1px solid var(--border); flex-grow: 1; overflow-x: auto;">
-            <h2 style="margin-top: 0;">Products</h2>
-            <table style="width: 100%; min-width: 600px;">
+        <div style="background: white; padding: 2rem; border-radius: 16px; border: 1px solid var(--border); overflow-x: auto;">
+            <h2 style="margin-top: 0; margin-bottom: 1.5rem;">Products List</h2>
+            <table style="width: 100%; min-width: 550px;">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Price (₹)</th>
-                        <th>Stock</th>
-                        <th>Actions</th>
+                        <th style="padding: 12px; border-bottom: 2px solid var(--border);">Name</th>
+                        <th style="padding: 12px; border-bottom: 2px solid var(--border);">Category</th>
+                        <th style="padding: 12px; border-bottom: 2px solid var(--border);">Price (₹)</th>
+                        <th style="padding: 12px; border-bottom: 2px solid var(--border);">Stock</th>
+                        <th style="padding: 12px; border-bottom: 2px solid var(--border);">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for product in products %}
                     <tr id="row-{{ product['id'] }}">
-                        <td style="font-weight: 600;">{{ product['name'] }}</td>
-                        <td><span class="badge" style="background: #e2e8f0; color: #334155;">{{ product['category'] }}</span></td>
-                        <td>
-                            <input type="number" step="0.01" id="price-{{ product['id'] }}" value="{{ product['price'] }}" style="width: 90px; padding: 6px; margin: 0; border: 1px solid var(--border); border-radius: 6px;">
+                        <td style="padding: 12px; font-weight: 600;">{{ product['name'] }}</td>
+                        <td style="padding: 12px;"><span class="badge" style="background: #e2e8f0; color: #334155;">{{ product['category'] }}</span></td>
+                        <td style="padding: 12px;">
+                            <input type="number" step="0.01" id="price-{{ product['id'] }}" value="{{ product['price'] }}" style="width: 80px; padding: 6px; margin: 0; border: 1px solid var(--border); border-radius: 6px;">
                         </td>
-                        <td>
-                            <input type="number" id="stock-{{ product['id'] }}" value="{{ product['stock'] }}" style="width: 80px; padding: 6px; margin: 0; border: 1px solid var(--border); border-radius: 6px;">
+                        <td style="padding: 12px;">
+                            <input type="number" id="stock-{{ product['id'] }}" value="{{ product['stock'] }}" style="width: 70px; padding: 6px; margin: 0; border: 1px solid var(--border); border-radius: 6px;">
                         </td>
-                        <td>
-                            <button onclick="saveProduct({{ product['id'] }}, this)" class="btn-small" style="background: #d1fae5; color: #065f46; border-color: #10b981;">Save</button>
-                            <button onclick="deleteProduct({{ product['id'] }})" class="btn-small btn-danger">Delete</button>
+                        <td style="padding: 12px;">
+                            <button onclick="saveProduct({{ product['id'] }}, this)" class="btn-small" style="background: #d1fae5; color: #065f46; border-color: #10b981; padding: 6px 12px;">Save</button>
+                            <button onclick="deleteProduct({{ product['id'] }})" class="btn-small btn-danger" style="padding: 6px 12px;">Del</button>
                         </td>
                     </tr>
                     {% endfor %}
@@ -81,7 +86,6 @@
 
 {% block scripts %}
 <script>
-// New Save Product Logic for Admin
 function saveProduct(productId, btnElement) {
     const newStock = document.getElementById(`stock-${productId}`).value;
     const newPrice = document.getElementById(`price-${productId}`).value;
@@ -89,16 +93,11 @@ function saveProduct(productId, btnElement) {
     const originalText = btnElement.innerText;
     btnElement.innerText = "Wait...";
 
-    // Assuming you added the /admin/api/update-product/ route from previous turns!
-    // If not, we will update price and stock independently using your existing routes.
-
-    // Update Stock
     fetch(`/admin/api/update-product-stock/${productId}`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({stock: newStock})
     }).then(() => {
-        // Update Price
         fetch(`/admin/api/update-product-price/${productId}`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
