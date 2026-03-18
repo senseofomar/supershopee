@@ -7,19 +7,17 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    {% if session.get('user') %}
+    {% if session %}
     <nav class="main-nav">
-        <div class="logo">🛒 Super Shopee</div>
+        <div class="nav-brand">🛒 Super Shopee</div>
         <div class="nav-links">
-            {% if session.get('role') == 'Customer' %}
-                <a href="/customer">Shop</a>
-                <a href="/cart">Cart</a>
-                <a href="/my-orders">My Orders</a>
-                <span style="color: var(--text-muted); font-weight: 500; margin-left: 1rem;">Welcome, <strong style="color: var(--primary);">{{ session['user'] }}</strong></span>
-            {% elif session.get('role') == 'Admin' %}
+            {% if session.get('role') == 'Admin' %}
                 <a href="/admin">Dashboard</a>
                 <a href="/admin/inventory">Inventory</a>
                 <a href="/admin/orders">Orders</a>
+            {% else %}
+                <a href="/customer">Shop</a>
+                <a href="/my-orders">My Orders</a>
             {% endif %}
             <span style="color: var(--text-muted); font-weight: 500;">{{ session['user'] }} ({{ session['role'] }})</span>
             <a href="/logout" class="btn-small">Logout</a>

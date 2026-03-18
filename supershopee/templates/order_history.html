@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block title %}Order History | Super Shopee{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1 style="margin: 0;">📦 Order History</h1>
+        <a href="/customer" class="btn-small">← Back to Shopping</a>
+    </div>
+
+    {% if orders %}
+    <div style="background: white; border-radius: 16px; padding: 2rem; border: 1px solid var(--border); overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="border-bottom: 2px solid var(--border);">
+                    <th style="padding: 12px; text-align: left; font-weight: 600;">Order ID</th>
+                    <th style="padding: 12px; text-align: left; font-weight: 600;">Date</th>
+                    <th style="padding: 12px; text-align: right; font-weight: 600;">Total Amount</th>
+                    <th style="padding: 12px; text-align: center; font-weight: 600;">Status</th>
+                    <th style="padding: 12px; text-align: center; font-weight: 600;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr style="border-bottom: 1px solid var(--border);">
+                    <td style="padding: 12px; font-weight: 700; color: var(--text-muted);">#{{ order['id'] }}</td>
+                    <td style="padding: 12px;">{{ order['order_date'] }}</td>
+                    <td style="padding: 12px; text-align: right; font-weight: 600;">₹{{ "%.2f"|format(order['total_amount']) }}</td>
+                    <td style="padding: 12px; text-align: center;">
+                        <span class="badge" style="background: {% if order['status'] == 'Completed' %}#d1fae5{% elif order['status'] == 'Pending' %}#fef3c7{% else %}#fee2e2{% endif %}; color: {% if order['status'] == 'Completed' %}#065f46{% elif order['status'] == 'Pending' %}#92400e{% else %}#991b1b{% endif %}; padding: 6px 12px; border-radius: 4px; font-weight: 600;">
+                            {% if order['status'] == 'Completed' %}✅{% elif order['status'] == 'Pending' %}⏳{% else %}❌{% endif %} {{ order['status'] }}
+                        </span>
+                    </td>
+                    <td style="padding: 12px; text-align: center;">
+                        <a href="/order-confirmation/{{ order['id'] }}" class="btn-small" style="background: var(--primary); color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none;">View Details</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div style="text-align: center; background: white; padding: 3rem; border-radius: 16px; border: 1px solid var(--border);">
+        <div style="font-size: 4rem; margin-bottom: 1rem;">📭</div>
+        <p style="color: var(--text-muted); font-size: 1.2rem;">No orders yet</p>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Start shopping to place your first order!</p>
+        <a href="/customer" class="btn" style="width: 200px; margin: 0 auto; display: block;">Start Shopping</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
