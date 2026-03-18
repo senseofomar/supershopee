@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="460b9426-4374-4a61-b2d0-38ddbd30ba8b" name="Changes" comment="last polishing">
-      <change beforePath="$PROJECT_DIR$/supershopee/database.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/static/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/templates/customer.html" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/templates/customer.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/database.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +94,7 @@
       <workItem from="1773741966630" duration="473000" />
       <workItem from="1773742456307" duration="12072000" />
       <workItem from="1773806733387" duration="3417000" />
-      <workItem from="1773832052692" duration="6176000" />
+      <workItem from="1773832052692" duration="9060000" />
     </task>
     <task id="LOCAL-00001" summary="app initialise">
       <option name="closed" value="true" />
@@ -267,7 +264,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773851458813</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="last polishing">
+      <option name="closed" value="true" />
+      <created>1773852591500</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1773852591500</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -304,6 +309,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="last polishing" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/supershopee$app.coverage" NAME="app Coverage Results" MODIFIED="1773851495634" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supershopee" />
+    <SUITE FILE_PATH="coverage/supershopee$app.coverage" NAME="app Coverage Results" MODIFIED="1773871224084" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supershopee" />
   </component>
 </project>
