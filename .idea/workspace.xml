@@ -2,24 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="460b9426-4374-4a61-b2d0-38ddbd30ba8b" name="Changes" comment="last polishing">
-      <change beforePath="$PROJECT_DIR$/supershopee/static/products/download_images.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/almonds.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/almonds.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/apples.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/apples.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/bananas.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/bananas.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/bread.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/bread.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/broccoli.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/broccoli.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/butter.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/butter.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/carrots.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/carrots.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/cheese.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/cheese.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/cookies.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/cookies.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/croissants.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/croissants.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/milk.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/milk.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/onions.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/onions.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/oranges.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/oranges.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/pasta.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/pasta.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/rice.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/rice.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/strawberries.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/strawberries.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/supershopee/static/products/supershopee/static/products/tomatoes.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/static/products/tomatoes.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/supershopee/setup_score.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/almonds.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/apples.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/bananas.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/bread.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/broccoli.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/butter.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/carrots.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/cheese.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/cookies.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/croissants.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/milk.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/onions.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/oranges.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/pasta.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/rice.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/strawberries.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/products/tomatoes.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/static/uploads/prod_2486_bb.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/supershopee/templates/customer.html" beforeDir="false" afterPath="$PROJECT_DIR$/supershopee/templates/customer.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +82,10 @@
     "DefaultHtmlFileTemplate": "HTML File",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "Python.app.executor": "Run",
+    "Python.database.executor": "Run",
     "Python.download_images.executor": "Run",
+    "Python.setup_score.executor": "Run",
+    "Python.setup_store.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -90,6 +97,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\PycharmProjects\supershopee\supershopee\static\products" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -112,7 +124,8 @@
       <workItem from="1773741966630" duration="473000" />
       <workItem from="1773742456307" duration="12072000" />
       <workItem from="1773806733387" duration="3417000" />
-      <workItem from="1773832052692" duration="9980000" />
+      <workItem from="1773832052692" duration="11435000" />
+      <workItem from="1773894380733" duration="3199000" />
     </task>
     <task id="LOCAL-00001" summary="app initialise">
       <option name="closed" value="true" />
@@ -306,7 +319,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773871678714</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="last polishing">
+      <option name="closed" value="true" />
+      <created>1773872230544</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1773872230544</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -343,7 +364,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="last polishing" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/supershopee$setup_store.coverage" NAME="setup_store Coverage Results" MODIFIED="1773873419956" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supershopee" />
+    <SUITE FILE_PATH="coverage/supershopee$database.coverage" NAME="database Coverage Results" MODIFIED="1773897123766" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supershopee" />
     <SUITE FILE_PATH="coverage/supershopee$download_images.coverage" NAME="download_images Coverage Results" MODIFIED="1773871617088" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supershopee/static/products" />
-    <SUITE FILE_PATH="coverage/supershopee$app.coverage" NAME="app Coverage Results" MODIFIED="1773871377070" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supershopee" />
+    <SUITE FILE_PATH="coverage/supershopee$app.coverage" NAME="app Coverage Results" MODIFIED="1773897333211" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supershopee" />
+    <SUITE FILE_PATH="coverage/supershopee$setup_score.coverage" NAME="setup_score Coverage Results" MODIFIED="1773895265665" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/supershopee" />
   </component>
 </project>

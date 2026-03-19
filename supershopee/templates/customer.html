@@ -9,63 +9,68 @@
         <p>Browse our premium selection of fresh produce, dairy, bakery items and pantry essentials.</p>
     </div>
 
-    <!-- FIXED: Improved search bar styling with proper layout -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; background: white; padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
-        <div style="display: flex; gap: 1rem; flex: 1; min-width: 300px; align-items: center;">
-            <!-- Search Input -->
-            <div style="flex: 1; position: relative;">
-                <input type="text" id="searchInput" placeholder="🔍 Search products..."
-                    style="width: 100%; padding: 12px 15px; border: 1px solid var(--border); border-radius: var(--radius-md); font-family: inherit; font-size: 1rem; transition: all 0.2s;"
-                    onfocus="this.style.borderColor='var(--accent)'; this.style.boxShadow='0 0 0 3px rgba(16, 185, 129, 0.1)'"
-                    onblur="this.style.borderColor='var(--border)'; this.style.boxShadow='none'">
-            </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; background: white; padding: 1rem; border-radius: 12px; border: 1px solid var(--border); align-items: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
 
-            <!-- Category Filter -->
+        <div style="flex: 1 1 300px; display: flex; align-items: center; background: var(--bg-page); border: 1.5px solid var(--border); border-radius: 8px; padding: 0 12px; transition: border-color 0.2s;">
+            <span style="color: var(--text-muted); font-size: 1.1rem; margin-right: 8px;">🔍</span>
+            <input type="text" id="searchInput" placeholder="Search for fresh groceries..."
+                style="width: 100%; padding: 12px 0; border: none; background: transparent; outline: none; font-size: 1rem; color: var(--text-main); font-family: inherit;">
+        </div>
+
+        <div style="flex: 0 1 200px;">
             <select id="categoryFilter"
-                style="padding: 12px 15px; border: 1px solid var(--border); border-radius: var(--radius-md); font-family: inherit; font-size: 1rem; min-width: 150px; background: white; cursor: pointer; transition: all 0.2s;"
-                onfocus="this.style.borderColor='var(--accent)'; this.style.boxShadow='0 0 0 3px rgba(16, 185, 129, 0.1)'"
-                onblur="this.style.borderColor='var(--border)'; this.style.boxShadow='none'">
+                style="width: 100%; padding: 12px; border: 1.5px solid var(--border); border-radius: 8px; background: var(--bg-page); font-size: 1rem; color: var(--text-main); outline: none; cursor: pointer; font-family: inherit;">
                 <option value="">All Categories</option>
-                {% for cat in categories %}
-                <option value="{{ cat['category'] }}" {% if cat['category'] == selected_category %}selected{% endif %}>{{ cat['category'] }}</option>
-                {% endfor %}
+                <option value="Fruits">Fruits</option>
+                <option value="Vegetables">Vegetables</option>
+                <option value="Dairy">Dairy</option>
+                <option value="Bakery">Bakery</option>
+                <option value="Pantry">Pantry</option>
             </select>
         </div>
 
-        <a href="/cart" class="btn" style="width: auto; background: var(--accent); color: white; padding: 12px 20px; border-radius: var(--radius-md); text-decoration: none; font-weight: 700; transition: all 0.2s; display: flex; align-items: center; gap: 8px;" onmouseover="this.style.background='var(--accent-hover)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--accent)'; this.style.transform='translateY(0)'">🛒 View Cart</a>
+        <div style="flex: 0 1 auto;">
+            <a href="/cart" class="btn" style="display: inline-block; padding: 12px 24px; border-radius: 8px; background: var(--accent); color: white; font-weight: bold; text-decoration: none; white-space: nowrap; box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);">
+                🛒 View Cart
+            </a>
+        </div>
     </div>
 
     <div class="product-grid">
         {% if products %}
             {% for product in products %}
-            <div class="card" data-product-name="{{ product['name'].lower() }}" data-category="{{ product['category'] }}">
+            <div class="card" data-product-name="{{ product['name'].lower() }}" data-category="{{ product['category'] }}" style="display: flex; flex-direction: column;">
                 <div class="card-img" style="height: 200px; overflow: hidden; background: #f8fafc; position: relative;">
-                    {% if product['img_url'] and product['img_url'].startswith('http') %}
+
+                    {% if product['img_url'] and (product['img_url'].startswith('http') or product['img_url'].startswith('/')) %}
                         <img src="{{ product['img_url'] }}" alt="{{ product['name'] }}" style="width: 100%; height: 100%; object-fit: cover;">
+                    {% elif product['img_url'] %}
+                        <img src="{{ url_for('static', filename='uploads/' + product['img_url']) }}" alt="{{ product['name'] }}" style="width: 100%; height: 100%; object-fit: cover;">
                     {% else %}
                         <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); color: white; font-weight: 700; text-align: center; padding: 1rem;">
                             {{ product['name'] }}
                         </div>
                     {% endif %}
+
                 </div>
-                <div class="card-body">
+                <div class="card-body" style="flex-grow: 1; display: flex; flex-direction: column;">
                     <h3 style="margin: 0 0 0.5rem 0; font-size: 1.1rem;">{{ product['name'] }}</h3>
-                    <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0.5rem 0;">{{ product['description'] }}</p>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0.5rem 0; flex-grow: 1;">{{ product['description'] }}</p>
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
                         <span style="font-size: 1.4rem; font-weight: 700; color: var(--primary);">₹{{ "%.2f"|format(product['price']) }}</span>
-                        <span style="background: var(--border); color: var(--text-muted); padding: 4px 8px; border-radius: 6px; font-size: 0.85rem; font-weight: 600;">{{ product['category'] }}</span>
+                        <span style="background: var(--bg-page); color: var(--text-muted); border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; font-size: 0.85rem; font-weight: 600;">{{ product['category'] }}</span>
                     </div>
-                    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-                        <input type="number" id="qty-{{ product['id'] }}" min="1" max="{{ product['stock'] }}" value="1" style="width: 60px; padding: 8px; border: 1px solid var(--border); border-radius: var(--radius-md); text-align: center;">
-                        <button class="btn" style="flex: 1;" onclick="addToCart({{ product['id'] }}, this)" data-name="{{ product['name'] }}">Add to Cart</button>
+                    <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
+                        <input type="number" id="qty-{{ product['id'] }}" min="1" max="{{ product['stock'] }}" value="1" style="width: 70px; padding: 10px; border: 1.5px solid var(--border); border-radius: 8px; text-align: center; font-weight: bold; outline: none;">
+                        <button class="btn" style="flex: 1; border-radius: 8px; padding: 10px; font-weight: bold;" onclick="addToCart({{ product['id'] }}, this)" data-name="{{ product['name'] }}">Add to Cart</button>
                     </div>
                 </div>
             </div>
             {% endfor %}
         {% else %}
-            <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
-                <p style="font-size: 1.2rem; color: var(--text-muted);">No products found</p>
-                <a href="/customer" class="btn" style="width: 200px; margin: 1rem auto; display: block;">Clear Filters</a>
+            <div style="grid-column: 1 / -1; text-align: center; padding: 4rem; background: white; border-radius: 12px; border: 1px solid var(--border);">
+                <div style="font-size: 4rem; margin-bottom: 1rem;">🛒</div>
+                <p style="font-size: 1.2rem; color: var(--text-muted);">No products found in the inventory.</p>
             </div>
         {% endif %}
     </div>
@@ -94,8 +99,12 @@ function showToast(message, type = 'success') {
 }
 
 function addToCart(productId, btnElement) {
-    const qty = document.getElementById(`qty-${productId}`).value;
+    const qtyInput = document.getElementById(`qty-${productId}`);
+    const qty = qtyInput.value;
     const productName = btnElement.getAttribute('data-name');
+
+    const originalText = btnElement.innerText;
+    btnElement.innerText = "Adding...";
 
     fetch('/api/add-to-cart', {
         method: 'POST',
@@ -104,24 +113,23 @@ function addToCart(productId, btnElement) {
     })
     .then(r => r.json())
     .then(d => {
+        btnElement.innerText = originalText;
         if(d.success) {
-            document.getElementById(`qty-${productId}`).value = 1;
-            showToast(`${productName} added to cart!`);
+            qtyInput.value = 1;
+            showToast(`${qty}x ${productName} added to cart!`);
         } else {
             showToast(d.error || 'Error adding to cart', 'error');
         }
     })
-    .catch(e => showToast('Error adding to cart', 'error'));
+    .catch(e => {
+        btnElement.innerText = originalText;
+        showToast('Error adding to cart', 'error');
+    });
 }
 
 // Search and filter functionality
-document.getElementById('searchInput').addEventListener('keyup', function() {
-    filterProducts();
-});
-
-document.getElementById('categoryFilter').addEventListener('change', function() {
-    filterProducts();
-});
+document.getElementById('searchInput').addEventListener('input', filterProducts);
+document.getElementById('categoryFilter').addEventListener('change', filterProducts);
 
 function filterProducts() {
     const searchTerm = document.getElementById('searchInput').value.toLowerCase();
@@ -135,8 +143,20 @@ function filterProducts() {
         const matchesSearch = productName.includes(searchTerm);
         const matchesCategory = categoryFilter === '' || category === categoryFilter;
 
-        card.style.display = (matchesSearch && matchesCategory) ? 'block' : 'none';
+        // FIXED: Using 'flex' instead of 'block' so the card layout doesn't break!
+        card.style.display = (matchesSearch && matchesCategory) ? 'flex' : 'none';
     });
 }
+
+// Add focus effect to search bar container dynamically
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('focus', () => {
+    searchInput.parentElement.style.borderColor = 'var(--accent)';
+    searchInput.parentElement.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.1)';
+});
+searchInput.addEventListener('blur', () => {
+    searchInput.parentElement.style.borderColor = 'var(--border)';
+    searchInput.parentElement.style.boxShadow = 'none';
+});
 </script>
 {% endblock %}
